@@ -24,7 +24,7 @@ function Input(props) {
     */ 
     const inputFocus = (e) =>  {
         const list = e.parentElement.classList
-        list.add(styles.container_input_focus) 
+        list.add(styles.container_input_focus)
     }
 
     /*

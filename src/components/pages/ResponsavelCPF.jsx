@@ -28,7 +28,6 @@ function ResponsavelCPF({setDadosResponsavel, setResponsavelCPF}) {
     */
     const submit = (e) => {
         e.preventDefault()
-
         fetch(urlApi+"/responsaveis?cpf="+cpf, {
             method: 'GET',
             headers: {

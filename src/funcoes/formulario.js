@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { urlApi } from "../config"
 
 /*
@@ -12,6 +11,25 @@ const handleChange = (campo) => {
     setDados({ ...dados , [nome] : valor})
 }
 */
+
+function updateAPI(dados, uri) {
+    fetch(urlApi+uri, {
+        method: 'PATCH',
+        headers: {
+            'Content-type': 'application/vnd.api+json',
+            'Accept': 'application/vnd.api+json',
+            'Access-Control-Allow-Origin': 'http://192.168.1.66:3000',
+            //'Content-type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(resp => resp.json())
+    .then((data) => {
+        console.log(data)
+        //redirect aqui
+    })
+    .catch((err) => console.log(err))
+}
 
 /*
 * Função criarResponsavel
@@ -43,4 +61,4 @@ function postApi(dados, uri) {
 }
 
 
-export {postApi}
+export {postApi, updateAPI}

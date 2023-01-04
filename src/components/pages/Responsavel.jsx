@@ -1,5 +1,5 @@
 //Arquivo de configuração
-import { postApi } from '../../funcoes/formulario.js';
+import { postApi, updateAPI } from '../../funcoes/formulario.js';
 
 // Hooks do React
 import { useState } from 'react';
@@ -13,7 +13,7 @@ import Button from "../form/Button";
 function Responsavel ({dadosResponsavel, responsavelCPF}) {
 
     // Define a variavel e o state que armanezarão os dados advindos do formulário    
-    const [dados, setDados] = useState({})
+    const [dados, setDados] = useState(dadosResponsavel ? dadosResponsavel.data.attributes : {})
 
     /*
     * Função handleChange
@@ -36,9 +36,12 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
                 email: dados.email,
                 ocupacao: dados.ocupacao,
                 registro: dados.registro,
-                cpf: dados.cpf
+                cpf: responsavelCPF ? responsavelCPF : dados.cpf
             }
         }
+    }
+    if(dadosResponsavel) {
+        responsavel.data.id = dadosResponsavel.data.id
     }
 
     /*
@@ -49,6 +52,9 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
         if(responsavelCPF) {
             postApi(responsavel, "/responsaveis")
         }
+        if(responsavel.data.id) {
+            updateAPI(responsavel, "/responsaveis/"+ responsavel.data.id)
+        }
     }
 
     return(
@@ -57,18 +63,19 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
             <h1 tabIndex="0">Responsável</h1>
             <div className="container_form">
                 <form onSubmit={(e) => submit(e)}>
-                <Input
-                label="Nome"
-                descricao=""
-                idDescricao=""
-                type="text"
-                name="nome"
-                id="nome"
-                maxlength="150"
-                required={true}
-                value={dadosResponsavel ? dadosResponsavel.data.attributes.nome : ''}
-                handleChange={handleChange}
-                />
+                    {!dadosResponsavel &&   
+                        <Input
+                        label="Nome"
+                        descricao=""
+                        idDescricao=""
+                        type="text"
+                        name="nome"
+                        id="nome"
+                        maxlength="150"
+                        required={true}
+                        handleChange={handleChange}
+                        />
+                    }
                 <Input
                 label="Telefone"
                 descricao="Apenas  dígitos numéricos. Os dois primeiros dígitos devem ser o código de área seguido
@@ -79,7 +86,7 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
                 id="telefone"
                 maxlength="11"
                 required={true}
-                value={dadosResponsavel ? dadosResponsavel.data.attributes.telefone : ''}
+                value={dados.telefone ? dados.telefone : '' }
                 handleChange={handleChange}
                 />
 
@@ -92,7 +99,7 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
                 id="email"
                 maxlength="150"
                 required={true}
-                value={dadosResponsavel ? dadosResponsavel.data.attributes.email : ''}
+                value={dados.email ? dados.email : ''}
                 handleChange={handleChange}
                 />
 
@@ -105,7 +112,7 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
                 name="ocupacao"
                 id="ocupacao"
                 required={true}
-                value={dadosResponsavel ? dadosResponsavel.data.attributes.ocupacao : ''}
+                value={dados.ocupacao ? dados.ocupacao : ''}
                 handleChange={handleChange}
                 />
 
@@ -119,24 +126,9 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
                 id="registro"
                 maxlength="9"
                 required={false}
-                value={dadosResponsavel ? dadosResponsavel.data.attributes.registro : ''}
+                value={dados.registro ? dados.registro : ''}
                 handleChange={handleChange}
                 />
-
-                <Input
-                label="CPF"
-                descricao="Apenas dígitos numéricos, sem pontos e traço. "
-                idDescricao="desc_cpf"
-                type="text"
-                name="cpf"
-                id="cpf"
-                maxlength="11"
-                required={true}
-                value={responsavelCPF ? responsavelCPF : dadosResponsavel.data.attributes.cpf}
-                disabled={true}
-                handleChange={handleChange}
-                />
-
                 <Button />
                 </form>
             </div>
