@@ -1,0 +1,12 @@
+.orientacao {
+	background: #fff3cd;
+	border: 1px solid #ffeeba;
+	border-radius: 10px;
+	color: #856404;
+	padding: 15px 30px;
+}
+
+.orientacao ul li {
+	list-style: disc inside;
+	font-size: 1.1em;
+}

@@ -1,13 +1,149 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, main, div {
+	display: block;
+	box-sizing: border-box;
+}
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Global */
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Ubuntu', sans-serif;
+	font-weight: bold;
+	margin: 30px 0;
+}
+
+h1 {
+	font-size: 2.5em;
+	line-height: 2.5em;.container_form {
+	max-width: 800px;
+	box-sizing: border-box;
+	margin: 0 auto;
+	padding: 10px;
+}
+}
+
+h2 {
+	font-size: 2.2em
+}
+
+h3 {
+	font-size: 1.9em
+}
+
+h4 {
+	font-size: 1.6em
+}
+
+h5 {
+	font-size: 1.3em
+}
+
+h6 {
+	font-size: 1em
+}
+
+p {
+	line-height: 2em;
+	font-size: 1.2em;
+}
+
+li {
+	line-height: 2em;
+	font-size: 1.2em;
+}
+
+div, p, input, select, li {
+	font-family: 'Open Sans', sans-serif;
+}
+
+label, button, input[type=submit] {
+	font-family: 'Ubuntu', sans-serif;
+}
+
+label {
+	display: block;
+	font-weight: bold;
+	font-size: 1.3em;
+	padding: 15px 0;
+}
+
+input {
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+	font-size: 1.2em;
+}
+
+button, input[type=submit] {
+	border: 0;
+}
+select {
+	width: 50%;
+	padding: 10px;
+	font-size: 1.2em;
+}
+
+.material-icons {
+	vertical-align: middle;
+	padding: 0 10px;
+}
+
+header, footer {
+	background: #339688;
+	min-height: 150px;
+}
+
+main {
+	background: #fff;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+	padding: 20px 10px;
+}
+
+.container_form {
+	max-width: 800px;
+	box-sizing: border-box;
+	margin: 0 auto;
+	padding: 10px;
 }

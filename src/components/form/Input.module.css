@@ -1,0 +1,22 @@
+.container_input {
+	margin: 20px 0;
+	padding: 20px 30px 50px 30px;
+	border: 1px solid #aaaaaa;
+	border-radius: 10px;
+	transition-property: background-color;
+	transition-duration: 0.3s;
+	transition-timing-function: linear;
+}
+
+.container_input:hover, .container_input_focus {
+	background-color: #dddddd;
+}
+
+.input_descricao {
+	padding: 15px 0;
+	line-height: 1.8em;
+	font-size: 1.1em;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+}
