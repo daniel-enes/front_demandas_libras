@@ -1,5 +1,6 @@
 //Arquivo de configuração
 import { urlApi } from "../../config"
+import {toogleLoading} from "../../funcoes/efeitos.js"
 
 // Hooks do React
 import { useEffect, useState } from 'react';
@@ -8,6 +9,7 @@ import { useEffect, useState } from 'react';
 import Orientacao from "../form/Orientacao";
 import Input from "../form/Input"
 import Button from "../form/Button";
+import Loading from "../layot/Loading";
 
 function ResponsavelCPF({setDadosResponsavel, setResponsavelCPF}) {
 
@@ -28,6 +30,7 @@ function ResponsavelCPF({setDadosResponsavel, setResponsavelCPF}) {
     */
     const submit = (e) => {
         e.preventDefault()
+        toogleLoading(true)
         fetch(urlApi+"/responsaveis?cpf="+cpf, {
             method: 'GET',
             headers: {
@@ -50,6 +53,7 @@ function ResponsavelCPF({setDadosResponsavel, setResponsavelCPF}) {
 
     return(
         <>
+            <Loading />
             <Orientacao />
             <h1 tabIndex="0">Informe seu CPF</h1>
             <div className="container_form">
@@ -58,7 +62,7 @@ function ResponsavelCPF({setDadosResponsavel, setResponsavelCPF}) {
                         label="CPF"
                         descricao="Apenas dígitos numéricos, sem pontos e traço. "
                         idDescricao="desc_cpf"
-                        type="text"
+                        type="number"
                         name="cpf"
                         id="cpf"
                         maxlength="11"

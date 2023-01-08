@@ -1,5 +1,5 @@
-//Arquivo de configuração
 import { postApi, updateAPI } from '../../funcoes/formulario.js';
+import {toogleLoading} from "../../funcoes/efeitos.js"
 
 // Hooks do React
 import { useState } from 'react';
@@ -9,11 +9,13 @@ import Orientacao from "../form/Orientacao";
 import Input from "../form/Input"
 import Select from "../form/Select";
 import Button from "../form/Button";
+import Loading from '../layot/Loading.jsx';
 
-function Responsavel ({dadosResponsavel, responsavelCPF}) {
+function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
 
     // Define a variavel e o state que armanezarão os dados advindos do formulário    
     const [dados, setDados] = useState(dadosResponsavel ? dadosResponsavel.data.attributes : {})
+    //const [id, setId] = useState(false) 
 
     /*
     * Função handleChange
@@ -49,16 +51,20 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
     */
     const submit = (e) => {
         e.preventDefault()
+        toogleLoading(true)
         if(responsavelCPF) {
-            postApi(responsavel, "/responsaveis")
+        postApi(setIdResponsavel, responsavel, "/responsaveis")
+
         }
         if(responsavel.data.id) {
             updateAPI(responsavel, "/responsaveis/"+ responsavel.data.id)
+            setIdResponsavel(responsavel.data.id)
         }
     }
 
     return(
         <>
+            <Loading />
             <Orientacao />
             <h1 tabIndex="0">Responsável</h1>
             <div className="container_form">
@@ -81,7 +87,7 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
                 descricao="Apenas  dígitos numéricos. Os dois primeiros dígitos devem ser o código de área seguido
                 pelo número de telefone.  Exemplo: 21988222594."
                 idDescricao="desc_telefone"
-                type="tel"
+                type="number"
                 name="telefone"
                 id="telefone"
                 maxlength="11"
@@ -103,7 +109,6 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
                 handleChange={handleChange}
                 />
 
-                Falta fazer as opções
                 <Select
                 label="Ocupação"
                 descricao=''
@@ -113,6 +118,7 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
                 id="ocupacao"
                 required={true}
                 value={dados.ocupacao ? dados.ocupacao : ''}
+                valores={['estudante', 'técnico', 'docente']}
                 handleChange={handleChange}
                 />
 
@@ -121,7 +127,7 @@ function Responsavel ({dadosResponsavel, responsavelCPF}) {
                 descricao='Apenas dígitos numéricos. Digite seu Siape caso no campo anterior tenha selecionado
                 “docente” ou "técnico"; ou o DRE caso seja "estudante".'
                 idDescricao="desc_registro"
-                type="text"
+                type="number"
                 name="registro"
                 id="registro"
                 maxlength="9"

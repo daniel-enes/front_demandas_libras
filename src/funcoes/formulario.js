@@ -1,4 +1,5 @@
 import { urlApi } from "../config"
+import styles from "../components/form/Input.module.css"
 
 /*
 * Função handleChange
@@ -26,7 +27,6 @@ function updateAPI(dados, uri) {
     .then(resp => resp.json())
     .then((data) => {
         console.log(data)
-        //redirect aqui
     })
     .catch((err) => console.log(err))
 }
@@ -38,7 +38,7 @@ function updateAPI(dados, uri) {
 * @uri = caminho da api para onde são enviado os dados. Deve ser uma string.
 * Exemplo: "/responsaveis"
 */
-function postApi(dados, uri) {
+function postApi(setDados, dados, uri) {
         
     // const navigate = Navigate()
 
@@ -55,10 +55,31 @@ function postApi(dados, uri) {
     .then(resp => resp.json())
     .then((data) => {
         console.log(data)
-        //redirect aqui
+        setDados(data)
     })
     .catch((err) => console.log(err))
 }
 
+/*
+    * Função inputFocus 
+    * Função que adiciona uma classe CSS ao elemento pai, container do campo do formulário,
+    * quando o campo de formulário recebe o foco. O efeito dessa classe é alterar a cor de
+    * fundo do container.
+    */ 
+const inputFocus = (e) =>  {
+    const list = e.parentElement.classList
+    list.add(styles.container_input_focus)
+}
 
-export {postApi, updateAPI}
+/*
+* Função inputBlur
+* Função que remove uma classe CSS ao elemento pai, container do campo do formulário,
+* quando o campo de formulário perde o foco. O efeito dessa classe é remover a cor de
+* fundo adicionada ao container.
+*/
+const inputBlur = (e) => {
+    const list = e.parentElement.classList
+    list.remove(styles.container_input_focus) 
+}
+
+export {postApi, updateAPI, inputFocus, inputBlur}
