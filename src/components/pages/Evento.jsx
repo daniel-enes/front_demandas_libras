@@ -100,7 +100,7 @@ function Evento({idResponsavel, setEvento}) {
                     handleChange={handleChange}
                     />
 
-                    <Button />
+                    <Button className="botao">Enviar</Button>
                 </form>
             </div>
         </>

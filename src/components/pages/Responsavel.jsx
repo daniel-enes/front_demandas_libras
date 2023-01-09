@@ -54,11 +54,11 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
         toogleLoading(true)
         if(responsavelCPF) {
         postApi(setIdResponsavel, responsavel, "/responsaveis")
-
         }
         if(responsavel.data.id) {
-            updateAPI(responsavel, "/responsaveis/"+ responsavel.data.id)
-            setIdResponsavel(responsavel.data.id)
+            toogleLoading(true)
+            updateAPI(setIdResponsavel, responsavel, "/responsaveis/"+ responsavel.data.id)
+            //setIdResponsavel(responsavel.data.id)
         }
     }
 
@@ -135,7 +135,7 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
                 value={dados.registro ? dados.registro : ''}
                 handleChange={handleChange}
                 />
-                <Button />
+                <Button className="botao">Enviar</Button>
                 </form>
             </div>
         </>

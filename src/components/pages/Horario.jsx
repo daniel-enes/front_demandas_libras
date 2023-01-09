@@ -16,7 +16,9 @@ function Horario({evento, setHorario}) {
     
     // Define a variavel e o state que armanezarão os dados advindos do formulário    
     const [dados, setDados] = useState({})
-    //const [id, setId] = useState(false) 
+    //const [id, setId] = useState(false)
+    
+    const [maisHorarios, setMaisHorarios] = useState(false)
 
     /*
     * Função handleChange
@@ -61,7 +63,14 @@ function Horario({evento, setHorario}) {
         e.preventDefault()
         toogleLoading(true)
         postApi(setHorario, hora, "/horarios")
-        toogleLoading(false)
+        if(maisHorarios) {
+            toogleLoading(false)
+            setHorario(true)
+        } else {
+            toogleLoading(false)
+            setHorario(false)
+        }
+
     }
 
     return(
@@ -151,7 +160,16 @@ function Horario({evento, setHorario}) {
                     handleChange={handleChange} 
                     />
 
-                    <Button />
+                    <Button 
+                    className="botao_second" 
+                    state={true} 
+                    setState={setMaisHorarios}>+ Adicionar mais horários</Button>
+
+                    <Button 
+                    className="botao" 
+                    state={false} 
+                    setState={setMaisHorarios}>Salvar e terminar</Button>
+                    
                 </form>
             </div>
         </>

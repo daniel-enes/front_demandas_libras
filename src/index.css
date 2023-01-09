@@ -136,6 +136,44 @@ textarea{
 	min-height: 250px;
 }
 
+.container_submit {
+	text-align: right;
+	padding: 0px 10px;
+	margin: 20px 0px 10px 0px;
+}
+.botao, .botao_second {
+	padding: 10px;
+	font-weight: bold;
+	font-size: 1.2em;
+	min-width: 120px;
+	transition-property: background;
+	transition-duration: 0.3s;
+	transition-timing-function: linear;
+}
+
+.botao {
+	background: rgba(0, 0, 0, 1);
+	color: #fff;
+}
+
+.botao:hover, .botao:focus {
+	outline: 2px solid rgb(90, 90, 90);
+	background: rgb(90, 90, 90);
+	color: #fff;
+}
+
+.botao_second {
+	background: #fff;
+	color: #000;
+	outline: 2px solid #000;
+}
+
+.botao_second:hover, .botao_second:focus {
+	outline: 2px solid rgb(90, 90, 90);;
+	background: rgb(90, 90, 90);
+	color: #fff;
+}
+
 .material-icons {
 	vertical-align: middle;
 	padding: 0 10px;

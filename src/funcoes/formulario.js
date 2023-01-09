@@ -13,7 +13,7 @@ const handleChange = (campo) => {
 }
 */
 
-function updateAPI(dados, uri) {
+function updateAPI(setDados, dados, uri) {
     fetch(urlApi+uri, {
         method: 'PATCH',
         headers: {
@@ -27,6 +27,7 @@ function updateAPI(dados, uri) {
     .then(resp => resp.json())
     .then((data) => {
         console.log(data)
+        setDados(data)
     })
     .catch((err) => console.log(err))
 }

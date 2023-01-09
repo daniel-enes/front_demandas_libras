@@ -18,14 +18,23 @@ function Formulario() {
     // Usado para quando os dados do evento forem salvos
     const [evento, setEvento] = useState(false)
     // Determina se deve continuar cadastrando horário (true) ou se deve encerrar (false)
-    const [horario, setHorario] = useState(true)
+    const [horario, setHorario] = useState(false)
 
-    if(evento) {
+    if(horario) {
         return(
             <>
                 <Horario 
                     evento={evento} 
-                    hora={horario} 
+                    setHorario={setHorario} 
+                />
+            </>
+        )
+    }
+    else if(evento) {
+        return(
+            <>
+                <Horario 
+                    evento={evento} 
                     setHorario={setHorario} 
                 />
             </>
