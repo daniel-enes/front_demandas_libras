@@ -1,18 +1,6 @@
 import { urlApi } from "../config"
 import styles from "../components/form/Input.module.css"
 
-/*
-* Função handleChange
-* Função de manipulação dos dados advindos do formulário
-* @campo = recebe o campo do formulário que terá suas propridades name e value acessadas
-
-const handleChange = (campo) => {
-    const nome = campo.name
-    const valor = campo.value
-    setDados({ ...dados , [nome] : valor})
-}
-*/
-
 function updateAPI(setDados, dados, uri) {
     fetch(urlApi+uri, {
         method: 'PATCH',
@@ -32,16 +20,7 @@ function updateAPI(setDados, dados, uri) {
     .catch((err) => console.log(err))
 }
 
-/*
-* Função criarResponsavel
-* Função responsável pelo envio de dados para o backend
-* @responsavel = recebe um objeto contendo os dados definidos através do formulários
-* @uri = caminho da api para onde são enviado os dados. Deve ser uma string.
-* Exemplo: "/responsaveis"
-*/
 function postApi(setDados, dados, uri) {
-        
-    // const navigate = Navigate()
 
     fetch(urlApi+uri, {
         method: 'POST',
@@ -56,6 +35,20 @@ function postApi(setDados, dados, uri) {
     .then(resp => resp.json())
     .then((data) => {
         console.log(data)
+        setDados(data)
+    })
+    .catch((err) => console.log(err))
+}
+
+function getApi(setDados, uri) {
+    fetch(urlApi+uri, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/vnd.api+json',
+        },
+    })
+    .then(resp => resp.json())
+    .then((data) => {
         setDados(data)
     })
     .catch((err) => console.log(err))
@@ -83,4 +76,4 @@ const inputBlur = (e) => {
     list.remove(styles.container_input_focus) 
 }
 
-export {postApi, updateAPI, inputFocus, inputBlur}
+export {postApi, getApi, updateAPI, inputFocus, inputBlur}

@@ -1,5 +1,6 @@
 import { postApi } from '../../funcoes/formulario.js'
 import { toogleLoading } from '../../funcoes/efeitos.js'
+import { useNavigate } from 'react-router-dom'
 
 // Hooks do React
 import { useState } from 'react'
@@ -12,13 +13,15 @@ import Select from "../form/Select"
 import Button from "../form/Button"
 import Loading from '../layot/Loading.jsx'
 
-function Horario({evento, setHorario}) {
-    
+function Horario({evento, setEvento, setHorario}) {
+    // Determina o navigate (para redirecionar o usuário)
+    const navigate = useNavigate()
+
     // Define a variavel e o state que armanezarão os dados advindos do formulário    
     const [dados, setDados] = useState({})
     //const [id, setId] = useState(false)
     
-    const [maisHorarios, setMaisHorarios] = useState(false)
+    const [maisHorarios, setMaisHorarios] = useState(true)
 
     /*
     * Função handleChange
@@ -64,13 +67,9 @@ function Horario({evento, setHorario}) {
         toogleLoading(true)
         postApi(setHorario, hora, "/horarios")
         if(maisHorarios) {
-            toogleLoading(false)
-            setHorario(true)
-        } else {
-            toogleLoading(false)
-            setHorario(false)
+            navigate('/formulario?e='+evento.data.id)
         }
-
+         
     }
 
     return(
@@ -174,6 +173,7 @@ function Horario({evento, setHorario}) {
             </div>
         </>
     )
+
 }
 
 export default Horario

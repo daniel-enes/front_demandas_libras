@@ -1,13 +1,15 @@
 // Hooks do React
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { getApi } from '../../funcoes/formulario';
 
 import Responsavel from './Responsavel';
 import ResponsavelCPF from './ResponsavelCPF';
 import Evento from './Evento';
 import Horario from './Horario';
-import Loading from "../layot/Loading";
 
-function Formulario() {
+function Formulario(props) {
 
     // Usado quando for encontrado os dados do responsável registrado no sistema
     const [dadosResponsavel, setDadosResponsavel] = useState(false)
@@ -19,8 +21,17 @@ function Formulario() {
     const [evento, setEvento] = useState(false)
     // Determina se deve continuar cadastrando horário (true) ou se deve encerrar (false)
     const [horario, setHorario] = useState(false)
+    
+    const {e} = useParams()
 
-    if(horario) {
+    if(e) {
+        return (
+            <>
+                Oi
+            </>
+        )
+        /*
+        getApi(setEvento, '/eventos/'+e)
         return(
             <>
                 <Horario 
@@ -29,6 +40,7 @@ function Formulario() {
                 />
             </>
         )
+        */
     }
     else if(evento) {
         return(

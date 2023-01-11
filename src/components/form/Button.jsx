@@ -1,10 +1,12 @@
 function Button(props) {
-    if(props.state) {
+
+    const click = () => {
         props.setState(props.state)
     }
+
     return (
         <div className="container_submit">
-            <button type="submit" className={props.className}>{props.children}</button>
+            <button onClick={() => click()} type="submit" className={props.className}>{props.children}</button>
         </div>
     )
 }
