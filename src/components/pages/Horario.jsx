@@ -67,7 +67,7 @@ function Horario({evento, setEvento, setHorario}) {
         toogleLoading(true)
         postApi(setHorario, hora, "/horarios")
         if(maisHorarios) {
-            navigate('/formulario?e='+evento.data.id)
+            navigate('/formulario/'+evento.data.id)
         }
          
     }

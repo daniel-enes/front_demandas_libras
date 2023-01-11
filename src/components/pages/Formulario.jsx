@@ -1,5 +1,5 @@
 // Hooks do React
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { getApi } from '../../funcoes/formulario';
@@ -22,32 +22,30 @@ function Formulario(props) {
     // Determina se deve continuar cadastrando horário (true) ou se deve encerrar (false)
     const [horario, setHorario] = useState(false)
     
-    const {e} = useParams()
-
-    if(e) {
-        return (
-            <>
-                Oi
-            </>
-        )
-        /*
-        getApi(setEvento, '/eventos/'+e)
+    const {id} = useParams()
+    /*
+    
+    useEffect(() => {
+        getApi(setEvento, '/eventos/'+id)
+    }, [])
+    */ 
+    if(id || evento) {
         return(
             <>
-                <Horario 
+            {id}
+            <Horario 
                     evento={evento} 
-                    setHorario={setHorario} 
+                    setHorario={setHorario}
                 />
             </>
         )
-        */
     }
-    else if(evento) {
+    if(evento) {
         return(
             <>
                 <Horario 
                     evento={evento} 
-                    setHorario={setHorario} 
+                    setHorario={setHorario}
                 />
             </>
         )

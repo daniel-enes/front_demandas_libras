@@ -9,11 +9,6 @@ import Responsavel from './components/pages/Responsavel';
 import Horario from './components/pages/Horario';
 import Loading from './components/layot/Loading'
 
-/*
-              
-              <Route path='me' element={<Formulario />} />
-*/
-
 function App() {
   return (
     <>
@@ -22,6 +17,7 @@ function App() {
         <Main>
           <Routes>
             <Route path='formulario' element={<Formulario />} />
+            <Route path='/formulario/:id' element={<Formulario />} />
           </Routes>
         </Main>
         <Footer />
