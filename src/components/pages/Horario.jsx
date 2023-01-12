@@ -13,7 +13,10 @@ import Select from "../form/Select"
 import Button from "../form/Button"
 import Loading from '../layot/Loading.jsx'
 
-function Horario({evento, setEvento, setHorario}) {
+function Horario({e, evento, setHorario}) {
+
+    const idEvento = evento ? evento.data.id : e
+
     // Determina o navigate (para redirecionar o usuário)
     const navigate = useNavigate()
 
@@ -52,13 +55,13 @@ function Horario({evento, setEvento, setHorario}) {
                 eventos: {
                     data: {
                         type: "eventos",
-                        id: evento.data.id,
+                        id: idEvento,
                     }
                 }
             },
         }
     }
-
+            
     /*
     * Função de envio de formulário
     */
@@ -67,11 +70,21 @@ function Horario({evento, setEvento, setHorario}) {
         toogleLoading(true)
         postApi(setHorario, hora, "/horarios")
         if(maisHorarios) {
-            navigate('/formulario/'+evento.data.id)
+            navigate('/solicitar/evento/'+idEvento)
+            
+        } else {
+            navigate('/')
         }
          
     }
 
+    /*
+    const continuarCadastro = document.getElementById("continuar_cadastro")
+    continuarCadastro.addEventListener('click', setMaisHorarios(true))
+
+    const terminarCadastro = document.getElementById("terminar_cadastro")
+    terminarCadastro.addEventListener('click', setMaisHorarios(false))
+    */ 
     return(
         <>
             <Loading />
@@ -83,7 +96,6 @@ function Horario({evento, setEvento, setHorario}) {
                     label="Modalidade"
                     descricao=''
                     idDescricao=""
-                    type=""
                     name="modalidade"
                     id="modalidade"
                     required={true}
@@ -159,15 +171,17 @@ function Horario({evento, setEvento, setHorario}) {
                     handleChange={handleChange} 
                     />
 
-                    <Button 
-                    className="botao_second" 
-                    state={true} 
-                    setState={setMaisHorarios}>+ Adicionar mais horários</Button>
+                    <div className="container_submit">
+                        <button type="submit" 
+                        onClick={() => setMaisHorarios(true)}
+                        className="botao_second">Adicionar mais horários</button>
+                    </div>
 
-                    <Button 
-                    className="botao" 
-                    state={false} 
-                    setState={setMaisHorarios}>Salvar e terminar</Button>
+                    <div className="container_submit">
+                        <button type="submit" 
+                        onClick={() => setMaisHorarios(false)}
+                        className="botao">Salvar e terminar</button>
+                    </div>
                     
                 </form>
             </div>

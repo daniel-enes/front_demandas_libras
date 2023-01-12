@@ -22,18 +22,22 @@ function Formulario(props) {
     // Determina se deve continuar cadastrando horário (true) ou se deve encerrar (false)
     const [horario, setHorario] = useState(false)
     
-    const {id} = useParams()
-    /*
-    
-    useEffect(() => {
-        getApi(setEvento, '/eventos/'+id)
-    }, [])
-    */ 
-    if(id || evento) {
+    const {e} = useParams()
+    if(e) {
         return(
             <>
-            {id}
-            <Horario 
+                <Horario 
+                    evento={evento} 
+                    e={e}
+                    setHorario={setHorario}
+                />
+            </>
+        )
+    }
+    else if(evento) {
+        return(
+            <>
+                <Horario 
                     evento={evento} 
                     setHorario={setHorario}
                 />

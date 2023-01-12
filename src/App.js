@@ -16,8 +16,8 @@ function App() {
         <Header />
         <Main>
           <Routes>
-            <Route path='formulario' element={<Formulario />} />
-            <Route path='/formulario/:id' element={<Formulario />} />
+            <Route path='/solicitar' element={<Formulario />} />
+            <Route path='/solicitar/evento/:e' element={<Formulario />} />
           </Routes>
         </Main>
         <Footer />
