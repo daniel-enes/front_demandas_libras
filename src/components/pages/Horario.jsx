@@ -13,18 +13,16 @@ import Select from "../form/Select"
 import Button from "../form/Button"
 import Loading from '../layot/Loading.jsx'
 
-function Horario({e, evento, setHorario}) {
-
-    const idEvento = evento ? evento.data.id : e
+function Horario({evento, setHorario}) {
 
     // Determina o navigate (para redirecionar o usuário)
-    const navigate = useNavigate()
+    
+    //const navigate = useNavigate()
 
     // Define a variavel e o state que armanezarão os dados advindos do formulário    
     const [dados, setDados] = useState({})
-    //const [id, setId] = useState(false)
     
-    const [maisHorarios, setMaisHorarios] = useState(true)
+    const [maisHorarios, setMaisHorarios] = useState(false)
 
     /*
     * Função handleChange
@@ -55,7 +53,7 @@ function Horario({e, evento, setHorario}) {
                 eventos: {
                     data: {
                         type: "eventos",
-                        id: idEvento,
+                        id: evento.data.id,
                     }
                 }
             },
@@ -70,21 +68,14 @@ function Horario({e, evento, setHorario}) {
         toogleLoading(true)
         postApi(setHorario, hora, "/horarios")
         if(maisHorarios) {
-            navigate('/solicitar/evento/'+idEvento)
+            //navigate('/solicitar/evento/'+idEvento)
             
         } else {
-            navigate('/')
+            //navigate('/')
         }
          
     }
 
-    /*
-    const continuarCadastro = document.getElementById("continuar_cadastro")
-    continuarCadastro.addEventListener('click', setMaisHorarios(true))
-
-    const terminarCadastro = document.getElementById("terminar_cadastro")
-    terminarCadastro.addEventListener('click', setMaisHorarios(false))
-    */ 
     return(
         <>
             <Loading />

@@ -3,7 +3,7 @@ import { urlApi } from "../../config"
 import {toogleLoading} from "../../funcoes/efeitos.js"
 
 // Hooks do React
-import { useEffect, useState } from 'react';
+import {useState } from 'react';
 
 // Componentes para compor o formulário
 import Orientacao from "../form/Orientacao";
@@ -31,13 +31,11 @@ function ResponsavelCPF({setDadosResponsavel, setResponsavelCPF}) {
     const submit = (e) => {
         e.preventDefault()
         toogleLoading(true)
+
         fetch(urlApi+"/responsaveis?cpf="+cpf, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/vnd.api+json',
-                //'Accept': 'application/vnd.api+json',
-                'Access-Control-Allow-Origin': 'http://192.168.1.66:3000',
-                //'Content-type': 'application/json'
             },
         })
         .then(resp => resp.json())
@@ -49,13 +47,15 @@ function ResponsavelCPF({setDadosResponsavel, setResponsavelCPF}) {
             }
         })
         .catch((err) => console.log(err))
+        .finally(() => toogleLoading(false))
+        
     }
 
     return(
         <>
             <Loading />
             <Orientacao />
-            <h1 tabIndex="0">Informe seu CPF</h1>
+            <h1 tabIndex="0">Informe seu CPF: etapa 1 de 4</h1>
             <div className="container_form">
                 <form onSubmit={(e) => submit(e)}>
                     <Input

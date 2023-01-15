@@ -1,6 +1,9 @@
 import { postApi, updateAPI } from '../../funcoes/formulario.js';
 import {toogleLoading} from "../../funcoes/efeitos.js"
 
+// Par avalidar formulário
+import Schema from 'async-validator'
+
 // Hooks do React
 import { useState } from 'react';
 
@@ -15,7 +18,45 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
 
     // Define a variavel e o state que armanezarão os dados advindos do formulário    
     const [dados, setDados] = useState(dadosResponsavel ? dadosResponsavel.data.attributes : {})
-    //const [id, setId] = useState(false) 
+
+    const [erros, setErros] = useState(false)
+
+    /* 
+    * Manipulador de erros 
+    * const campo: contém os campos que receberão as  mensagens de erro
+    * 
+    * manipularError: função que manipula os erros advindos da vlidação do formulário
+    * @erros: objeto que contém erros detectados na validação dos campos do formulário
+    * @ campos: objeto que contém os campos do formulário correspondente que armazena
+    * os erros detectados
+    */
+    const campos = {
+        nome: {rotulo: 'Nome', mensagem: []}, 
+        telefone: {rotulo: 'Telefone', mensagem: []}, 
+        email: {rotulo: 'Email', mensagem: []}, 
+        ocupacao: {rotulo: 'Ocupação', mensagem: []}, 
+        registro: {rotulo: 'Siape ou DRE', mensagem: []},
+    }
+     
+    const manipulaErros = (erros, campos) => {
+        for(let erro of erros) {
+            campos[erro.field].mensagem.push(erro.message)
+        }
+        return mensagemErro(campos)
+    }
+
+    const mensagemErro = (campos) => {
+        let erros = []
+        for(let campo in campos) {
+            if(campos[campo].mensagem) {
+                for(let mensagem of campos[campo].mensagem) {
+                    erros.push(<li key={campo}><a href={'#'+campo}><b>{campos[campo].rotulo}</b>: {mensagem}</a></li>)
+                }
+            }
+        }
+        return erros
+    }
+
 
     /*
     * Função handleChange
@@ -52,21 +93,77 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
     const submit = (e) => {
         e.preventDefault()
         toogleLoading(true)
-        if(responsavelCPF) {
-        postApi(setIdResponsavel, responsavel, "/responsaveis")
+
+
+        // Descrição da validação de dados
+        const descriptor = {
+            nome: {
+                type: 'string',
+                required: true,
+            },
+            telefone: {
+                type: 'number',
+                required: true,
+            },
+            email: {
+                type: 'email',
+                required: true,
+            },
+            ocupacao: {
+                type: 'enum',
+                enum: ['estudante', 'docente', 'técnico']
+            },
+            registro: {
+                required: false,
+                type: 'number'
+            }
         }
-        if(responsavel.data.id) {
-            toogleLoading(true)
-            updateAPI(setIdResponsavel, responsavel, "/responsaveis/"+ responsavel.data.id)
-            //setIdResponsavel(responsavel.data.id)
+
+        // Tradução das mensagens de erro para validação
+        const pt = {
+            required: 'preenchimento obrigatório.',
+            types: {
+                email: 'deve ser preenchido com um endereço de email',
+                integer: 'deve ser preenchido apenas com números.',
+                number: 'deve ser preenchido apenas com números.'
+                
+            }
         }
+
+        // Descrição é atribuida a um validador
+        const validator = new Schema(descriptor)
+        validator.messages(pt)
+
+        dados.telefone = parseInt(dados.telefone)
+        dados.registro = parseInt(dados.registro)
+
+        validator.validate(dados)
+        .then(() => {
+            if(responsavelCPF) {
+                postApi(setIdResponsavel, responsavel, "/responsaveis")
+            }
+            if(responsavel.data.id) {
+                updateAPI(setIdResponsavel, responsavel, "/responsaveis/"+ responsavel.data.id)
+            }
+        })
+        .catch(({errors, fields}) => {
+            toogleLoading(false)
+            setErros(manipulaErros(errors, campos))
+        })
+
     }
 
     return(
         <>
             <Loading />
             <Orientacao />
-            <h1 tabIndex="0">Responsável</h1>
+            <h1 tabIndex="0">Responsável: etapa 2 de 4</h1>
+            {erros &&
+                <div className='alert_erro'>
+                    <h3 tabIndex="0">Erro ao preencher o formulário</h3>
+                    <ul>{erros}</ul>
+                </div>
+            }
             <div className="container_form">
                 <form onSubmit={(e) => submit(e)}>
                     {!dadosResponsavel &&   
@@ -113,7 +210,6 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
                 label="Ocupação"
                 descricao=''
                 idDescricao=""
-                type=""
                 name="ocupacao"
                 id="ocupacao"
                 required={true}
