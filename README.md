@@ -1,70 +1,14 @@
-# Getting Started with Create React App
+# Demandas de intérprete de Libras
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+O projeto consiste no desenvolvimento de um sistema que gerencie demandas de solicitantes que necessitam de intérpretes de Libras. Para este fim, está sendo desenvolvido o **front-end** em **React**, utilizando-se as linguagens comum para este fim: **Javascript, HTML e CSS**. O **back-end** está sendo feito com framework **Laravel**, utilizando-se **PHP e SQL**.
+No **GitHub** é possível ter acesso a ambos aplicativos:<br/><br/>
+**[Front-end](https://github.com/daniel-enes/front_demandas_libras)**<br/><br/>
+**[Back-end](https://github.com/daniel-enes/api_demandas_libras)**<br/><br/>
+Com relação à operacionalidade do sistema, será disponibilizado ao público um formulário onde o demandante informa os seus dados e a programação do evento. Esse evento pode consistir em palestras, seminários, cursos, minicursos, oficinas, dentre outros.<br/><br/>
+Uma vez que as informações são armazenadas no banco de dados, o administrador do sistema terá acesso as demandas e poderá providenciar intérpretes de Libras para acessibilizar o evento na língua de sinais.<br/><br/>
+Uma característica importante da interface do sistema é que as páginas devem ser acessíveis para pessoas com deficiência, tornando positiva a experiência do seu uso.<br/><br/>
+## Origem do projeto
+A ideia de desenvolver um sistema que possa gerenciar demandas para atendimento dos clientes com intérpretes de Libras é oriundo de experiência pessoal na administração dos intérpretes de Libras na Dirac, Diretoria de Acessibilidade da UFRJ, onde diversos setores e unidades recorrem a essa diretoria necessitando de auxílio com relação a inclusão de pessoas com deficiência na Universidade.<br/><br/>
+Uma vez que na frente da coordenação de diversos profissionais intérpretes contratados para atender a esta instituição, foram detectadas rotinas que possibilitaram a concepção deste projeto.<br/><br/>
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
