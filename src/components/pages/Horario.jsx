@@ -1,5 +1,5 @@
-import { postApi } from '../../funcoes/formulario.js'
-import { toogleLoading } from '../../funcoes/efeitos.js'
+import { postApi, cleanFields } from '../../funcoes/formulario.js'
+import { toogleLoading, toFocus } from '../../funcoes/efeitos.js'
 import { useNavigate } from 'react-router-dom'
 
 // Hooks do React
@@ -16,8 +16,7 @@ import Loading from '../layot/Loading.jsx'
 function Horario({evento, setHorario}) {
 
     // Determina o navigate (para redirecionar o usuário)
-    
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
 
     // Define a variavel e o state que armanezarão os dados advindos do formulário    
     const [dados, setDados] = useState({})
@@ -68,10 +67,17 @@ function Horario({evento, setHorario}) {
         toogleLoading(true)
         postApi(setHorario, hora, "/horarios")
         if(maisHorarios) {
-            //navigate('/solicitar/evento/'+idEvento)
-            
+            cleanFields()
+            setTimeout(() => {
+                toogleLoading(false)
+            }, 500)
+            /*
+            let focused = document.querySelector('#focus')
+            focused.focus()
+            */
+            toFocus('#focus')
         } else {
-            //navigate('/')
+            navigate('/')
         }
          
     }

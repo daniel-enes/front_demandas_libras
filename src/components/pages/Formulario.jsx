@@ -1,8 +1,5 @@
 // Hooks do React
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
-import { getApi } from '../../funcoes/formulario';
+import { useState } from 'react';
 
 import Responsavel from './Responsavel';
 import ResponsavelCPF from './ResponsavelCPF';

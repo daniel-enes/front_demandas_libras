@@ -1,5 +1,10 @@
 import { postApi, updateAPI } from '../../funcoes/formulario.js';
-import {toogleLoading} from "../../funcoes/efeitos.js"
+import { toogleLoading, toFocus, show } from '../../funcoes/efeitos.js'
+
+import {dicionarioValidacao} from '../../config.js'
+
+// Navageção
+import { useNavigate } from 'react-router-dom'
 
 // Par avalidar formulário
 import Schema from 'async-validator'
@@ -15,6 +20,9 @@ import Button from "../form/Button";
 import Loading from '../layot/Loading.jsx';
 
 function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
+
+    // Determina o navigate (para redirecionar o usuário)
+    const navigate = useNavigate()
 
     // Define a variavel e o state que armanezarão os dados advindos do formulário    
     const [dados, setDados] = useState(dadosResponsavel ? dadosResponsavel.data.attributes : {})
@@ -94,7 +102,6 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
         e.preventDefault()
         toogleLoading(true)
 
-
         // Descrição da validação de dados
         const descriptor = {
             nome: {
@@ -119,20 +126,9 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
             }
         }
 
-        // Tradução das mensagens de erro para validação
-        const pt = {
-            required: 'preenchimento obrigatório.',
-            types: {
-                email: 'deve ser preenchido com um endereço de email',
-                integer: 'deve ser preenchido apenas com números.',
-                number: 'deve ser preenchido apenas com números.'
-                
-            }
-        }
-
         // Descrição é atribuida a um validador
         const validator = new Schema(descriptor)
-        validator.messages(pt)
+        validator.messages(dicionarioValidacao)
 
         dados.telefone = parseInt(dados.telefone)
         dados.registro = parseInt(dados.registro)
@@ -147,8 +143,11 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
             }
         })
         .catch(({errors, fields}) => {
-            toogleLoading(false)
+            show('#erro')
+            toFocus('#focus')
             setErros(manipulaErros(errors, campos))
+            //let element = document.querySelector('#focus')
+            //element.focus()
         })
 
     }
@@ -157,13 +156,12 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
         <>
             <Loading />
             <Orientacao />
-            <h1 tabIndex="0">Responsável: etapa 2 de 4</h1>
-            {erros &&
-                <div className='alert_erro'>
-                    <h3 tabIndex="0">Erro ao preencher o formulário</h3>
-                    <ul>{erros}</ul>
-                </div>
-            }
+            <h1 id="focus" tabIndex="0" autofocus="autofocus">Responsável: etapa 2 de 4</h1>
+
+            <div id="erro" className='alert_erro display_none' role="alert">
+                <h3 tabIndex="0">Erro ao preencher o formulário</h3>
+                <ul>{erros}</ul>
+            </div>
             <div className="container_form">
                 <form onSubmit={(e) => submit(e)}>
                     {!dadosResponsavel &&   
@@ -175,7 +173,7 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
                         name="nome"
                         id="nome"
                         maxlength="150"
-                        required={true}
+                        //required={true}
                         handleChange={handleChange}
                         />
                     }
@@ -184,7 +182,8 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
                 descricao="Apenas  dígitos numéricos. Os dois primeiros dígitos devem ser o código de área seguido
                 pelo número de telefone.  Exemplo: 21988222594."
                 idDescricao="desc_telefone"
-                type="number"
+                //type="number"
+                type="text"
                 name="telefone"
                 id="telefone"
                 maxlength="11"
@@ -197,11 +196,12 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
                 label="Email"
                 descricao=""
                 idDescricao=""
-                type="email"
+                //type="email"
+                type="text"
                 name="email"
                 id="email"
                 maxlength="150"
-                required={true}
+                //required={true}
                 value={dados.email ? dados.email : ''}
                 handleChange={handleChange}
                 />
@@ -223,7 +223,8 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
                 descricao='Apenas dígitos numéricos. Digite seu Siape caso no campo anterior tenha selecionado
                 “docente” ou "técnico"; ou o DRE caso seja "estudante".'
                 idDescricao="desc_registro"
-                type="number"
+                //type="number"
+                type="text"
                 name="registro"
                 id="registro"
                 maxlength="9"

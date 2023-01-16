@@ -76,4 +76,22 @@ const inputBlur = (e) => {
     list.remove(styles.container_input_focus) 
 }
 
-export {postApi, getApi, updateAPI, inputFocus, inputBlur}
+/* 
+* Função que limpa os campos do formulário
+*/
+const cleanFields = () => {
+    let selects = document.querySelectorAll('select')
+    let inputs = document.querySelectorAll('input')
+    let textareas = document.querySelectorAll('textarea')
+    for(let input of inputs) {
+        input.value = ''
+    }
+    for(let select of selects) {
+        select.value = ''
+    }
+    for(let textarea of textareas) {
+        textarea.value = ''
+    }
+}
+
+export {postApi, getApi, updateAPI, inputFocus, inputBlur, cleanFields}

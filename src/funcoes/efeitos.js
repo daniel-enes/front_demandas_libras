@@ -8,7 +8,23 @@ function toogleLoading(load) {
         loading.add("display_none")
         loading.remove("container_loading")
     }
-    
 }
 
-export {toogleLoading}
+function show(e) {
+    const element = document.querySelector(e).classList
+    return new Promise((resolve) => {
+        //element.classList.remove("display_none")
+        /*if(!element.contains('display_none')) {
+            element.add("display_none")
+        }*/
+        element.remove("display_none")
+        resolve(e)
+    })
+}
+
+function toFocus(e) {
+    let element = document.querySelector(e)
+    element.focus()
+}
+
+export {toogleLoading, toFocus, show}
