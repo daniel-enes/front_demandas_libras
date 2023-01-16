@@ -100,7 +100,6 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
     */
     const submit = (e) => {
         e.preventDefault()
-        toogleLoading(true)
 
         // Descrição da validação de dados
         const descriptor = {
@@ -135,6 +134,7 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
 
         validator.validate(dados)
         .then(() => {
+            toogleLoading(true)
             if(responsavelCPF) {
                 postApi(setIdResponsavel, responsavel, "/responsaveis")
             }
