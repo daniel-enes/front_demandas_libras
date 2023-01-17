@@ -22,9 +22,14 @@ function show(e) {
     })
 }
 
+function close(e) {
+    const element = document.querySelector(e).classList
+    element.add("display_none")
+}
+
 function toFocus(e) {
     let element = document.querySelector(e)
     element.focus()
 }
 
-export {toogleLoading, toFocus, show}
+export {toogleLoading, toFocus, show, close}

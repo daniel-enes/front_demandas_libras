@@ -1,5 +1,9 @@
-import { postApi} from '../../funcoes/formulario.js'
-import {toogleLoading} from "../../funcoes/efeitos.js"
+import { postApi, manipulaErros } from '../../funcoes/formulario.js'
+import { toogleLoading, toFocus, show } from '../../funcoes/efeitos.js'
+
+// Par avalidar formulário
+import Schema from 'async-validator'
+import {dicionarioValidacao} from '../../config.js'
 
 // Hooks do React
 import { useState } from 'react';
@@ -9,12 +13,34 @@ import Orientacao from "../form/Orientacao";
 import Input from "../form/Input"
 import Textarea from "../form/Textarea"
 import Button from "../form/Button";
+
+// Componentes de layot
 import Loading from '../layot/Loading.jsx';
+import ErroContainer from '../layot/ErroContainer.jsx'
 
 function Evento({idResponsavel, setEvento}) {
 
     // Define a variavel e o state que armanezarão os dados advindos do formulário    
     const [dados, setDados] = useState({})
+
+    // Define a variavel e o state que armazenarão os erros detectados na validação do formulário
+    const [erros, setErros] = useState(false)
+
+    /* 
+    * Manipulador de erros 
+    * const campo: contém os campos que receberão as  mensagens de erro
+    * 
+    * manipularError: função que manipula os erros advindos da vlidação do formulário
+    * @erros: objeto que contém erros detectados na validação dos campos do formulário
+    * @ campos: objeto que contém os campos do formulário correspondente que armazena
+    * os erros detectados
+    */
+    const campos = {
+        titulo: {rotulo: 'Título do evento', mensagem: []}, 
+        sobre: {rotulo: 'Sobre o evento', mensagem: []}, 
+        informacoes: {rotulo: 'Mais informações', mensagem: []}, 
+
+    }
 
     /*
     * Função handleChange
@@ -48,20 +74,52 @@ function Evento({idResponsavel, setEvento}) {
         }
     }
 
+
     /*
     * Função de envio de formulário
     */
     const submit = (e) => {
         e.preventDefault()
-        toogleLoading(true)
-        postApi(setEvento, evento, "/eventos")
+
+        // Descrição da validação de dados
+        const descriptor = {
+            titulo: {
+                type: 'string',
+                required: true,
+            },
+            sobre: {
+                type: 'string',
+                required: true,
+            },
+            informacoes: {
+                type: 'url',
+                required: false,
+            },
+        }
+
+        // Descrição é atribuida a um validador
+        const validator = new Schema(descriptor)
+        validator.messages(dicionarioValidacao)
+
+        validator.validate(dados)
+        .then(() => {
+            toogleLoading(true)
+            postApi(setEvento, evento, "/eventos")
+        })
+        .catch(({errors, fields}) => {
+            show('#erro')
+            toFocus('#focus')
+            setErros(manipulaErros(errors, campos))
+        })
     }
 
     return(
         <>
             <Loading />
             <Orientacao />
-            <h1 tabIndex="0">Eventos</h1>
+            <h1 id="focus" tabIndex="0" autofocus="autofocus">Eventos: etapa 3 de 4</h1>
+            <ErroContainer titulo="Erro ao preencher o formulário" erros={erros} />
+
             <div className="container_form">
                 <form  onSubmit={(e) => submit(e)}>
                     <Input

@@ -15,7 +15,7 @@ function updateAPI(setDados, dados, uri) {
     .then(resp => resp.json())
     .then((data) => {
         console.log(data)
-        setDados(data)
+        setDados(dados)
     })
     .catch((err) => console.log(err))
 }
@@ -94,4 +94,30 @@ const cleanFields = () => {
     }
 }
 
-export {postApi, getApi, updateAPI, inputFocus, inputBlur, cleanFields}
+/*
+* const campos = {
+*        nome: {rotulo: 'Nome', mensagem: []}, 
+*        telefone: {rotulo: 'Telefone', mensagem: []}
+*    }
+*/
+
+const manipulaErros = (erros, campos) => {
+    for(let erro of erros) {
+        campos[erro.field].mensagem.push(erro.message)
+    }
+    return mensagemErro(campos)
+}
+
+const mensagemErro = (campos) => {
+    let erros = []
+    for(let campo in campos) {
+        if(campos[campo].mensagem) {
+            for(let mensagem of campos[campo].mensagem) {
+                erros.push(<li key={campo}><a href={'#'+campo}><b>{campos[campo].rotulo}</b>: {mensagem}</a></li>)
+            }
+        }
+    }
+    return erros
+}
+
+export {postApi, getApi, updateAPI, inputFocus, inputBlur, cleanFields, manipulaErros}

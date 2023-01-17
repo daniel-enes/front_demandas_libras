@@ -1,5 +1,10 @@
-import { postApi, cleanFields } from '../../funcoes/formulario.js'
-import { toogleLoading, toFocus } from '../../funcoes/efeitos.js'
+import { postApi, manipulaErros, cleanFields } from '../../funcoes/formulario.js'
+import { toogleLoading, toFocus, show, close } from '../../funcoes/efeitos.js'
+
+// Par avalidar formulário
+import Schema from 'async-validator'
+import {dicionarioValidacao} from '../../config.js'
+
 import { useNavigate } from 'react-router-dom'
 
 // Hooks do React
@@ -10,8 +15,10 @@ import Orientacao from "../form/Orientacao"
 import Input from "../form/Input"
 import Textarea from "../form/Textarea"
 import Select from "../form/Select"
-import Button from "../form/Button"
-import Loading from '../layot/Loading.jsx'
+
+// Componentes de layot
+import Loading from '../layot/Loading.jsx';
+import ErroContainer from '../layot/ErroContainer.jsx'
 
 function Horario({evento, setHorario}) {
 
@@ -22,6 +29,28 @@ function Horario({evento, setHorario}) {
     const [dados, setDados] = useState({})
     
     const [maisHorarios, setMaisHorarios] = useState(false)
+
+    // Define a variavel e o state que armazenarão os erros detectados na validação do formulário
+    const [erros, setErros] = useState(false)
+
+    /* 
+    * Manipulador de erros 
+    * const campo: contém os campos que receberão as  mensagens de erro
+    * 
+    * manipularError: função que manipula os erros advindos da vlidação do formulário
+    * @erros: objeto que contém erros detectados na validação dos campos do formulário
+    * @ campos: objeto que contém os campos do formulário correspondente que armazena
+    * os erros detectados
+    */
+    const campos = {
+        modalidade: {rotulo: 'Modalidade', mensagem: []}, 
+        dia: {rotulo: 'Dia', mensagem: []}, 
+        inicia: {rotulo: 'Horário inicial', mensagem: []},
+        termina: {rotulo: 'Horário final', mensagem: []},
+        local: {rotulo: 'Local', mensagem: []},
+        material: {rotulo: 'Material', mensagem: []},
+        observacoes: {rotulo: 'Observações', mensagem: []},
+    }
 
     /*
     * Função handleChange
@@ -64,29 +93,80 @@ function Horario({evento, setHorario}) {
     */
     const submit = (e) => {
         e.preventDefault()
-        toogleLoading(true)
-        postApi(setHorario, hora, "/horarios")
-        if(maisHorarios) {
-            cleanFields()
-            setTimeout(() => {
-                toogleLoading(false)
-            }, 500)
-            /*
-            let focused = document.querySelector('#focus')
-            focused.focus()
-            */
-            toFocus('#focus')
-        } else {
-            navigate('/')
+
+        // Descrição da validação de dados
+        const descriptor = {
+            modalidade: {
+                enum: ['remoto', 'presencial com transmissão', 'presencial sem transmissão'],
+                required: true,
+            },
+            dia: {
+                type: 'date',
+                required: true,
+            },
+            inicia: {
+                type: 'string',
+                required: true,
+            },
+            termina: {
+                type: 'string',
+                required: true,
+            },
+            local: {
+                type: 'string',
+                required: false,
+            },
+            material: {
+                type: 'url',
+                required: false,
+            },
+            observacoes: {
+                type: 'string',
+                required: false,
+            }
         }
-         
+
+        // Descrição é atribuida a um validador
+        const validator = new Schema(descriptor)
+        validator.messages(dicionarioValidacao)
+
+        validator.validate(dados)
+        .then(() => {
+            // Exibe o Loading
+            toogleLoading(true)
+            
+            // Envia os dados pro servidor
+            postApi(setHorario, hora, "/horarios")
+
+            // Fecha o container de erros de validação de formulário na hipótese de estar aberta
+            close('#erro')
+
+            console.log("está vindo aqui")
+
+            if(maisHorarios) {
+                cleanFields()
+                setTimeout(() => {
+                toogleLoading(false)
+                }, 500)
+                toFocus('#focus')
+            } else {
+                navigate('/')
+            }
+        })
+        .catch(({errors, fields}) => {
+            show('#erro')
+            toFocus('#focus')
+            setErros(manipulaErros(errors, campos))
+        })
     }
 
     return(
         <>
             <Loading />
             <Orientacao />
-            <h1 tabIndex="0">Horário</h1>
+            <h1 id="focus" tabIndex="0" autofocus="autofocus">Horário: etapa 4 de 4</h1>
+            <ErroContainer titulo="Erro ao preencher o formulário" erros={erros} />
+
             <div className="container_form">
                 <form onSubmit={(e) => submit(e)}>
                     <Select
@@ -95,7 +175,7 @@ function Horario({evento, setHorario}) {
                     idDescricao=""
                     name="modalidade"
                     id="modalidade"
-                    required={true}
+                    //required={true}
                     valores={['remoto', 'presencial com transmissão', 'presencial sem transmissão']}
                     handleChange={handleChange}
                     />
@@ -107,7 +187,7 @@ function Horario({evento, setHorario}) {
                     type="date"
                     name="dia"
                     id="dia"
-                    required={true}
+                    //required={true}
                     handleChange={handleChange}
                     />
 
@@ -118,7 +198,7 @@ function Horario({evento, setHorario}) {
                     type="time"
                     name="inicia"
                     id="inicia"
-                    required={true}
+                    //required={true}
                     handleChange={handleChange}
                     />
 
@@ -129,7 +209,7 @@ function Horario({evento, setHorario}) {
                     type="time"
                     name="termina"
                     id="termina"
-                    required={true}
+                    //required={true}
                     handleChange={handleChange}
                     />
 
@@ -150,7 +230,8 @@ function Horario({evento, setHorario}) {
                     descricao="Sítio eletrônico contendo anexos e arquivos úteis para os intérpretes 
                     estarem estudando acerca do evento. Até 255 caracteres."
                     idDescricao="desc_material"
-                    type="url"
+                    //type="url"
+                    type="text"
                     name="material"
                     id="material"
                     maxlength="255"

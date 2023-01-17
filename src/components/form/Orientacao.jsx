@@ -10,6 +10,12 @@ function Orientacao () {
                 <li>
                     Alguns campos contêm instruções marcados com <i className="material-icons" aria-label="informação">&#xe88f;</i> 
                     que orientam sobre como devem ser preenchidos.
+                </li>
+                <li>Ao exibir erros de validação do formulário, pode-se acessar o box com a tecla de atalho <kbd>r</kbd>.
+                <br />
+                Verifique qual é a combinação de teclas suportada pelo seu navegador. Exemplos: <br />
+                Google Chrome: <kbd>Alt</kbd> + <kbd>r</kbd> <br />
+                Mozila Firefox: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>r</kbd>
                 </li>     
             </ul>
         </div>
