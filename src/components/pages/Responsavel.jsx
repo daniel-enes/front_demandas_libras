@@ -130,8 +130,10 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
         validator.messages(dicionarioValidacao)
 
         dados.telefone = parseInt(dados.telefone)
-        dados.registro = parseInt(dados.registro)
-
+        if(dados.registro) {
+            dados.registro = parseInt(dados.registro)
+        }
+        
         validator.validate(dados)
         .then(() => {
             toogleLoading(true)
