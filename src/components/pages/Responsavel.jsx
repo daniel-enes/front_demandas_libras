@@ -80,7 +80,7 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
     // dados: estrutura de dados a ser enviado par ao backend
     const responsavel = {
         data: {
-            types: "responsaveis",
+            type: "responsaveis",
             attributes: {
                 nome: dados.nome,
                 telefone: dados.telefone,

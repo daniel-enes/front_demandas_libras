@@ -56,7 +56,7 @@ function Evento({idResponsavel, setEvento}) {
     // dados: estrutura de dados a ser enviado par ao backend
     const evento = {
         data: {
-            types: "eventos",
+            type: "eventos",
             attributes: {
                 titulo: dados.titulo,
                 sobre: dados.sobre,

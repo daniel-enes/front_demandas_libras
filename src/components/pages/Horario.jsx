@@ -66,7 +66,7 @@ function Horario({evento, setHorario}) {
     // dados: estrutura de dados a ser enviado par ao backend
     const hora = {
         data: {
-            types: "horarios",
+            type: "horarios",
             attributes: {
                 modalidade: dados.modalidade,
                 dia: dados.dia,
