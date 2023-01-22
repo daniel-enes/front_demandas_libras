@@ -79,7 +79,8 @@ h6 {
 
 p {
 	line-height: 2em;
-	font-size: 1.2em;
+	font-size: 1em;
+	margin: 20px 0;
 }
 
 a {
@@ -134,7 +135,7 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
-input[type=date], input[type=time] {
+input[type=date], input[type=time]{
 	max-width: 200px;
 }
 
@@ -261,3 +262,4 @@ main {
 .display_none {
 	display: none;
 }
+
