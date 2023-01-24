@@ -3,43 +3,60 @@ import { getApi } from '../../funcoes/formulario.js'
 
 import TablePagination from '@mui/material/TablePagination';
 
-
-
 function EventosIndex() {
   
     const [eventos, setEventos] = React.useState(false)
-  
+    const [ordenar, setOrdenar] = React.useState('-id')
+    const [filtro, setFiltro] = React.useState(false)
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
+    // Rota do backend para a coleção de eventos
+    const e = '/eventos?'
+
+    // Manipula o campo que "Ordenar resultados"
+    const handleOrdenar = (o) => {
+        setOrdenar(o)
+        getApi(setEventos, e+'sort='+o+'&page[size]='+rowsPerPage+'&page[number]=1'+(filtro ? '&filter[titulo]='+filtro : ''))
+        console.log(e+'sort='+o+'&page[size]='+rowsPerPage+'&page[number]=1'+(filtro ? '&filter[titulo]='+filtro : ''))
+    }
+
+    // Manipula o campo que determina a página corrente da paginação
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number,
     ) => {
         setPage(newPage)
-        getApi(setEventos, '/eventos?page[size]='+rowsPerPage+'&page[number]='+(newPage+1))
+        getApi(setEventos, e+'sort='+ordenar+'&page[size]='+rowsPerPage+'&page[number]='+(newPage+1)+(filtro ? '&filter[titulo]='+filtro : ''))
     }
 
+    // Manipula o campo "Rows per page"
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
-        getApi(setEventos, '/eventos?page[size]='+event.target.value+'&page[number]=1')
+        getApi(setEventos, e+'sort='+ordenar+'&page[size]='+event.target.value+'&page[number]=1'+(filtro ? '&filter[titulo]='+filtro : ''))
     };
 
-    const definirParametros = (p) => {
-        getApi(setEventos, p)
+    // Manipula o campo "Procurar"
+    const handleSearch = (search) => {
+        setFiltro(search)
+        getApi(setEventos, e+'sort='+ordenar+'&page[size]='+rowsPerPage+'&page[number]=1&filter[titulo]='+search)
     }
 
+    // Retorno padrão da coleção de eventos ao carregar a página
     React.useEffect(() => {
-        getApi(setEventos, '/eventos?sort=-id&page[size]='+rowsPerPage+'&page[number]=1')
+        getApi(setEventos, e+'sort='+ordenar+'&page[size]='+rowsPerPage+'&page[number]='+(page + 1))
+        //setTotalEventos(eventos.meta.total)
+        
     }, [])
-
+    
     let evento = []
     if(eventos) {
-        let listaEventos = eventos.data
 
+        let listaEventos = eventos.data
+        
         evento = listaEventos.map((e) => {
             return (
                 <li key={e.id}>
@@ -51,34 +68,36 @@ function EventosIndex() {
         })
 
     }
-    //<option value="/eventos?sort=-id">Recentes</option>
+
     return(
         <>
         <div>
             <label>Procurar:</label>
             <input type="search" 
-            onChange={(e) => definirParametros("/eventos?filter[titulo]="+e.target.value)}/>
+            onChange={(e) => handleSearch(e.target.value)}/>
         </div>
         <div>
             <label htmlFor='ordenar'>Ordenar resultados: </label>
-            <select id="ordenar" onChange={(e) => definirParametros(e.target.value)}>
+            <select id="ordenar" onChange={(e) => handleOrdenar(e.target.value)}>
                 <option value="">- Selecione uma opção -</option>
-                <option value={"/eventos?sort=-id&page[size]="+rowsPerPage+"&page[number]="+(page+1)}>Recentes</option>
-                <option value={"/eventos?sort=id&page[size]="+rowsPerPage+"&page[number]="+(page+1)}>Antigos</option>
+                <option value="-id">Recentes</option>
+                <option value="id">Antigos</option>
             </select>
         </div>
-        <TablePagination
-        component="div"
-        count={100}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-            {eventos && (
-                
-                <ul>{evento}</ul>
-            )}
+        {eventos && 
+            <TablePagination
+            component="div"
+            count={eventos.meta.total}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+        }
+        
+        {eventos && (
+            <ul>{evento}</ul>
+        )}
         </>
     )
 }
