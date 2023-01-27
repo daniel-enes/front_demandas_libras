@@ -2,9 +2,7 @@
 function Main(props) {
     return (
         <main>
-            <div className="container">
-                {props.children}
-            </div>
+            {props.children}
         </main>
 
     )

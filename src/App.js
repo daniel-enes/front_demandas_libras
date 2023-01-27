@@ -6,6 +6,7 @@ import Footer from './components/layot/Footer'
 
 import Formulario from './components/pages/Formulario';
 import EventosIndex from './components/pages/EventosIndex';
+import EventoShow from './components/pages/EventoShow';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path='/solicitar' element={<Formulario />} />
             <Route path='/solicitar/evento/:e' element={<Formulario />} />
             <Route path='/eventos' element={<EventosIndex />}/>
+            <Route path='/eventos/:id' element={<EventoShow/>}/>
           </Routes>
         </Main>
         <Footer />

@@ -59,10 +59,14 @@ function EventosIndex() {
         
         evento = listaEventos.map((e) => {
             return (
-                <li key={e.id}>
-                    <h3>{e.attributes.titulo}</h3>
-                    <p>{e.attributes.sobre.length > 200 ? e.attributes.sobre.substr(0, 200) + '...' : e.attributes.sobre}</p>
-                    <p><a href={e.attributes.informacoes}>{e.attributes.informacoes}</a></p>
+                <li key={e.id} className="lista_resultado">
+                    <div className="container">
+                        <a href={"/eventos/"+e.id}>
+                        <h3>{e.attributes.titulo}</h3>
+                        <p>{e.attributes.sobre.length > 200 ? e.attributes.sobre.substr(0, 200) + '...' : e.attributes.sobre}</p>
+                        <p><a href={e.attributes.informacoes}>{e.attributes.informacoes}</a></p>
+                        </a>
+                    </div>
                 </li>
             )
         })
@@ -71,33 +75,38 @@ function EventosIndex() {
 
     return(
         <>
-        <div>
+        <div className="container">
             <label>Procurar:</label>
             <input type="search" 
             onChange={(e) => handleSearch(e.target.value)}/>
         </div>
-        <div>
-            <label htmlFor='ordenar'>Ordenar resultados: </label>
-            <select id="ordenar" onChange={(e) => handleOrdenar(e.target.value)}>
-                <option value="">- Selecione uma opção -</option>
-                <option value="-id">Recentes</option>
-                <option value="id">Antigos</option>
-            </select>
+        <div className="container flex_container_space_around">
+            <div className='container_select'>
+                <label htmlFor='ordenar'>Ordenar resultados: </label>
+                <select id="ordenar" onChange={(e) => handleOrdenar(e.target.value)}>
+                    <option value="-id">Recentes</option>
+                    <option value="id">Antigos</option>
+                </select>
+            </div>
+            {eventos &&
+            <>
+                <div>
+                    <TablePagination
+                    component="div"
+                    count={eventos.meta.total}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </div>
+            </> 
+            
+            }
         </div>
-        {eventos && 
-            <TablePagination
-            component="div"
-            count={eventos.meta.total}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-        }
-        
-        {eventos && (
-            <ul>{evento}</ul>
-        )}
+
+        <ul>{evento}</ul>
+
         </>
     )
 }
