@@ -7,6 +7,9 @@ import Footer from './components/layot/Footer'
 import Formulario from './components/pages/Formulario';
 import EventosIndex from './components/pages/EventosIndex';
 import EventoShow from './components/pages/EventoShow';
+import Interprete from './components/pages/Interprete';
+import InterpretesIndex from './components/pages/InterpretesIndex';
+//
 
 function App() {
   return (
@@ -19,6 +22,8 @@ function App() {
             <Route path='/solicitar/evento/:e' element={<Formulario />} />
             <Route path='/eventos' element={<EventosIndex />}/>
             <Route path='/eventos/:id' element={<EventoShow/>}/>
+            <Route path='/interprete' element={<Interprete />}/>
+            <Route path='/interpretes' element={<InterpretesIndex />}/>
           </Routes>
         </Main>
         <Footer />

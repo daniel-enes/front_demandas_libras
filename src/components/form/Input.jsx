@@ -63,6 +63,8 @@ function Input(props) {
             type={props.type}
             name={props.name}
             id={props.id}
+            min={props.min}
+            max={props.max}
             maxlenght={props.maxlenght}
             required={props.required && "required"}
             aria-describedby={props.idDescricao}

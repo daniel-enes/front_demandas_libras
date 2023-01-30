@@ -249,11 +249,15 @@ main {
 }
 
 .container {
-	display: flex;
+	display: block;
 	flex-wrap: wrap;
     max-width: 1000px;
     margin: 0 auto;
 	padding: 20px 10px;
+}
+
+.flex {
+	display: flex;
 }
 
 .flex_container_space_around {

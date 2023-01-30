@@ -1,6 +1,8 @@
 import { postApi, updateAPI, manipulaErros } from '../../funcoes/formulario.js';
 import { toogleLoading, toFocus, show } from '../../funcoes/efeitos.js'
 
+import { useNavigate } from 'react-router-dom';
+
 import {dicionarioValidacao} from '../../config.js'
 
 // Par avalidar formulário
@@ -19,10 +21,18 @@ import Button from "../form/Button";
 import Loading from '../layot/Loading.jsx';
 import ErroContainer from '../layot/ErroContainer.jsx'
 
-function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
+
+
+function Interprete() {
+
+    // Determina o navigate (para redirecionar o usuário)
+    const navigate = useNavigate()
+
+    // Define a variavel e o state que armazenarão os dados salvos dos intérprete
+    const [interpretes, setInterpretes] = useState(false)
 
     // Define a variavel e o state que armanezarão os dados advindos do formulário    
-    const [dados, setDados] = useState(dadosResponsavel ? dadosResponsavel.data.attributes : {})
+    const [dados, setDados] = useState(interpretes ? interpretes.data.attributes : {})
 
     // Define a variavel e o state que armazenarão os erros detectados na validação do formulário
     const [erros, setErros] = useState(false)
@@ -37,11 +47,9 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
     * os erros detectados
     */
     const campos = {
-        nome: {rotulo: 'Nome', mensagem: []}, 
+        nome: {rotulo: 'Nome completo', mensagem: []}, 
         telefone: {rotulo: 'Telefone', mensagem: []}, 
         email: {rotulo: 'Email', mensagem: []}, 
-        ocupacao: {rotulo: 'Ocupação', mensagem: []}, 
-        registro: {rotulo: 'Siape ou DRE', mensagem: []},
     }
 
     /*
@@ -56,29 +64,22 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
     }
 
     // dados: estrutura de dados a ser enviado par ao backend
-    const responsavel = {
+    const interprete = {
         data: {
-            type: "responsaveis",
+            type: "interpretes",
             attributes: {
                 nome: dados.nome,
                 telefone: dados.telefone,
                 email: dados.email,
-                ocupacao: dados.ocupacao,
-                registro: dados.registro,
-                cpf: responsavelCPF ? responsavelCPF : dados.cpf
+                status: "ativo",
             }
         }
     }
-    if(dadosResponsavel) {
-        responsavel.data.id = dadosResponsavel.data.id
-    }
 
-    /*
-    * Função de envio de formulário
-    */
+    // Ações ao enviar o formulário
     const submit = (e) => {
         e.preventDefault()
-
+        
         // Descrição da validação de dados
         const descriptor = {
             nome: {
@@ -93,34 +94,20 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
                 type: 'email',
                 required: true,
             },
-            ocupacao: {
-                type: 'enum',
-                enum: ['estudante', 'docente', 'técnico']
-            },
-            registro: {
-                required: false,
-                type: 'number'
-            }
         }
 
         // Descrição é atribuida a um validador
         const validator = new Schema(descriptor)
         validator.messages(dicionarioValidacao)
 
+        // Converte o valor de Telefone para um número inteiro e realiza a validação
         dados.telefone = parseInt(dados.telefone)
-        if(dados.registro) {
-            dados.registro = parseInt(dados.registro)
-        }
-        
+
         validator.validate(dados)
         .then(() => {
             toogleLoading(true)
-            if(responsavelCPF) {
-                postApi(setIdResponsavel, responsavel, "/responsaveis")
-            }
-            if(responsavel.data.id) {
-                updateAPI(setIdResponsavel, responsavel, "/responsaveis/"+ responsavel.data.id)
-            }
+            postApi(setInterpretes, interprete, "/interpretes")
+            navigate('/')
         })
         .catch(({errors, fields}) => {
             show('#erro')
@@ -133,26 +120,25 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
     return(
         <>
             <Loading />
-            <Orientacao />
-
-            <h1 id="focus" tabIndex="0" autofocus="autofocus">Responsável: etapa 2 de 4</h1>
-            <ErroContainer titulo="Erro ao preencher o formulário" erros={erros} />
-
             <div className="container_form">
+
+                <h1 id="focus" tabIndex="0" autoFocus="autoFocus">Intérprete de Libras</h1>
+                <ErroContainer titulo="Erro ao preencher o formulário" erros={erros} />
+                
                 <form onSubmit={(e) => submit(e)}>
-                    {!dadosResponsavel &&   
-                        <Input
-                        label="Nome"
-                        descricao=""
-                        idDescricao=""
-                        type="text"
-                        name="nome"
-                        id="nome"
-                        maxlength="150"
-                        required={true}
-                        handleChange={handleChange}
-                        />
-                    }
+
+                <Input
+                label="Nome completo"
+                descricao=""
+                idDescricao=""
+                type="text"
+                name="nome"
+                id="nome"
+                maxlength="150"
+                required={true}
+                handleChange={handleChange}
+                />
+
                 <Input
                 label="Telefone"
                 descricao="Apenas  dígitos numéricos. Os dois primeiros dígitos devem ser o código de área seguido
@@ -161,6 +147,8 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
                 type="number"
                 name="telefone"
                 id="telefone"
+                min="1100000000"
+                max="99999999999"
                 maxlength="11"
                 required={true}
                 value={dados.telefone ? dados.telefone : '' }
@@ -180,36 +168,12 @@ function Responsavel ({dadosResponsavel, responsavelCPF, setIdResponsavel}) {
                 handleChange={handleChange}
                 />
 
-                <Select
-                label="Ocupação"
-                descricao=''
-                idDescricao=""
-                name="ocupacao"
-                id="ocupacao"
-                required={true}
-                value={dados.ocupacao ? dados.ocupacao : ''}
-                valores={['estudante', 'técnico', 'docente']}
-                handleChange={handleChange}
-                />
-
-                <Input
-                label="Siape ou DRE"
-                descricao='Apenas dígitos numéricos. Digite seu Siape caso no campo anterior tenha selecionado
-                “docente” ou "técnico"; ou o DRE caso seja "estudante".'
-                idDescricao="desc_registro"
-                type="number"
-                name="registro"
-                id="registro"
-                maxlength="9"
-                required={false}
-                value={dados.registro ? dados.registro : ''}
-                handleChange={handleChange}
-                />
                 <Button className="botao">Enviar</Button>
+
                 </form>
             </div>
         </>
-    ) 
+    )
 }
 
-export default Responsavel
+export default Interprete
