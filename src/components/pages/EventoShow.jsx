@@ -4,27 +4,31 @@ import { useParams } from 'react-router-dom'
 
 import { getApi } from '../../funcoes/formulario.js'
 
+import { urlApi } from '../../config.js';
+
+import HorarioInterpretes from './HorarioInterpretes.jsx';
+
 function EventoShow() {
 
     let {id} = useParams();
 
     const [evento, setEvento] = useState(false)
+    const [interpretesRelatedURI, setInterpretesRelatedURI] = useState(false)
 
     let cabecalhoEvento = false // Variavel que constrói o cabeçalho do evento
     let incluidos       = false // Variavel que captura a coleção de objetjos incluidos no evento
     let responsavel     = false // Variavel que constrói a seção de informações do responsavel
-    let horarios        = []    // Variavel que contrói a seção da programção do evento
+    let horarios        = []    // Variavel que contrói a seção da programação do evento
+    let interpretes = false
 
     useEffect(() => {
         getApi(setEvento, '/eventos/'+id+'?include=horarios,responsavel')
-
     }, [])
 
     // Verifica se o evento existe
     if(evento) {
         
         // Constrói a seção do cabeçalho do evento
-
         cabecalhoEvento= (
             <section className='width_100' style={{order: 1}}>  
             <h2 className='uppercase'>{evento.data.attributes.titulo}</h2>
@@ -53,8 +57,7 @@ function EventoShow() {
         // Constrói a seção contendo os dados do responsável
 
         if(objetoResponsavel) {
-            console.log(objetoResponsavel[0].attributes.nome)
-            
+
             responsavel = (
                 <section key={objetoResponsavel[0].id}>
                     <h3>Responsavel</h3>
@@ -78,8 +81,23 @@ function EventoShow() {
             return i.type == "horarios"
         })
 
+        // Constrói a seção contendo os horários
+        // Na hipótese de ter intérpretes nos horários, constrói-os também
+
         if(objetoHorarios) {
+            
             horarios = objetoHorarios.map((horario) => {
+
+                if((!interpretesRelatedURI) && (horario.relationships.interpretes.links.related)) {
+                    const uri = horario.relationships.interpretes.links.related.replace(urlApi, '')
+                    setInterpretesRelatedURI(uri)
+                }
+                
+                // Contrói a seção de intérpretes
+                if(interpretesRelatedURI) {
+                    interpretes = <HorarioInterpretes uri={interpretesRelatedURI}/>
+                }
+
                 const data = new Date(horario.attributes.dia)
                 const dia = data.getDate()+"/"+data.getMonth()+"/"+data.getFullYear()
                 return (
@@ -105,6 +123,14 @@ function EventoShow() {
                         }
                         <p>{horario.attributes.material}</p>
                         <p><b>Agenda</b>: {horario.attributes.agenda}</p>
+
+                        {interpretes && 
+                            <>
+                            <h4>Intérpretes</h4>
+                            {interpretes}
+                            </>
+                        }
+
                         <h4>Observações</h4>
                         {horario.attributes.observacoes ? 
                         <p>{horario.attributes.observacoes}</p>
@@ -115,6 +141,10 @@ function EventoShow() {
                 )
             })
         }
+    }
+
+    if(interpretesRelatedURI) {
+        interpretes = <HorarioInterpretes uri={interpretesRelatedURI}/>
     }
 
     return (
