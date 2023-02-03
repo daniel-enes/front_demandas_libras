@@ -86,10 +86,13 @@ function FormularioHorario({evento, setHorario}) {
     const submit = (e) => {
         e.preventDefault()
 
-       // Descrição é atribuida a um validador
+       // validacaoHorario é atribuida a um validador
         const validator = new Schema(validacaoHorario(dados))
         validator.messages(dicionarioValidacao)
 
+        // dados são validados
+        // se aprovados, são enviados ao servidor/
+        // caso contrário, uma mensagem de erro é exibia acima do formulário
         validator.validate(dados)
         .then(() => {
             // Exibe o Loading

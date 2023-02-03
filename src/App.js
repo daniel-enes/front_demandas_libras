@@ -7,7 +7,7 @@ import Footer from './components/layot/Footer'
 import Formulario from './components/pages/Formulario';
 import EventosIndex from './components/pages/EventosIndex';
 import EventoShow from './components/pages/EventoShow';
-import Interprete from './components/pages/Interprete';
+import FormularioInterprete from './components/pages/FormularioInterprete ';
 import InterpretesIndex from './components/pages/InterpretesIndex';
 //
 
@@ -22,7 +22,7 @@ function App() {
             <Route path='/solicitar/evento/:e' element={<Formulario />} />
             <Route path='/eventos' element={<EventosIndex />}/>
             <Route path='/eventos/:id' element={<EventoShow/>}/>
-            <Route path='/interprete' element={<Interprete />}/>
+            <Route path='/cadastrar_interprete' element={<FormularioInterprete />}/>
             <Route path='/interpretes' element={<InterpretesIndex />}/>
           </Routes>
         </Main>

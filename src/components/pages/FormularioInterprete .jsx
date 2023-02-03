@@ -1,15 +1,24 @@
-import { postApi, updateAPI, manipulaErros } from '../../funcoes/formulario.js';
+import { postApi, updateAPI } from '../../funcoes/formulario.js';
 import { toogleLoading, toFocus, show } from '../../funcoes/efeitos.js'
 
-import { useNavigate } from 'react-router-dom';
-
+// Importa estrutura de dados com a tradução das mensagens de erro na validação dos dados
 import { dicionarioValidacao } from '../../validacao_formulario/dicionarioValidacao.js'
 
-// Par avalidar formulário
+// Importa estrutura de dados com os requisitos para validação dos dados do responsável
+import { validacaoInterprete } from '../../validacao_formulario/validacao/validacaoInterprete.js'
+
+// Importa a função que constrói as mensagens de erros da validação do formulário
+import { errosValidacao } from '../../validacao_formulario/errosValidacao.js'
+
+// Importa estrutura de dados contendo o nome do campo de formulário e respectivo rótulo
+import { rotulosInterprete } from '../../validacao_formulario/rotulos/rotulosInterprete.js'
+
+// Pacote de terceiro para validar os dados advindos do formulário
 import Schema from 'async-validator'
 
 // Hooks do React
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Componentes para compor o formulário
 import Orientacao from "../form/Orientacao";
@@ -21,9 +30,7 @@ import Button from "../form/Button";
 import Loading from '../layot/Loading.jsx';
 import ErroContainer from '../layot/ErroContainer.jsx'
 
-
-
-function Interprete() {
+function FormularioInterprete () {
 
     // Determina o navigate (para redirecionar o usuário)
     const navigate = useNavigate()
@@ -36,21 +43,6 @@ function Interprete() {
 
     // Define a variavel e o state que armazenarão os erros detectados na validação do formulário
     const [erros, setErros] = useState(false)
-
-    /* 
-    * Manipulador de erros 
-    * const campo: contém os campos que receberão as  mensagens de erro
-    * 
-    * manipularError: função que manipula os erros advindos da vlidação do formulário
-    * @erros: objeto que contém erros detectados na validação dos campos do formulário
-    * @ campos: objeto que contém os campos do formulário correspondente que armazena
-    * os erros detectados
-    */
-    const campos = {
-        nome: {rotulo: 'Nome completo', mensagem: []}, 
-        telefone: {rotulo: 'Telefone', mensagem: []}, 
-        email: {rotulo: 'Email', mensagem: []}, 
-    }
 
     /*
     * Função handleChange
@@ -79,25 +71,9 @@ function Interprete() {
     // Ações ao enviar o formulário
     const submit = (e) => {
         e.preventDefault()
-        
-        // Descrição da validação de dados
-        const descriptor = {
-            nome: {
-                type: 'string',
-                required: true,
-            },
-            telefone: {
-                type: 'number',
-                required: true,
-            },
-            email: {
-                type: 'email',
-                required: true,
-            },
-        }
 
-        // Descrição é atribuida a um validador
-        const validator = new Schema(descriptor)
+        // validacaoInterprete é atribuida a um validador
+        const validator = new Schema(validacaoInterprete)
         validator.messages(dicionarioValidacao)
 
         // Converte o valor de Telefone para um número inteiro e realiza a validação
@@ -112,7 +88,8 @@ function Interprete() {
         .catch(({errors, fields}) => {
             show('#erro')
             toFocus('#focus')
-            setErros(manipulaErros(errors, campos))
+            setErros(errosValidacao(errors, rotulosInterprete))
+
         })
 
     }
@@ -135,7 +112,7 @@ function Interprete() {
                 name="nome"
                 id="nome"
                 maxlength="150"
-                required={true}
+                //required={true}
                 handleChange={handleChange}
                 />
 
@@ -150,7 +127,7 @@ function Interprete() {
                 min="1100000000"
                 max="99999999999"
                 maxlength="11"
-                required={true}
+                //required={true}
                 value={dados.telefone ? dados.telefone : '' }
                 handleChange={handleChange}
                 />
@@ -163,7 +140,7 @@ function Interprete() {
                 name="email"
                 id="email"
                 maxlength="150"
-                required={true}
+                //required={true}
                 value={dados.email ? dados.email : ''}
                 handleChange={handleChange}
                 />
@@ -176,4 +153,4 @@ function Interprete() {
     )
 }
 
-export default Interprete
+export default FormularioInterprete 
