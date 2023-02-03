@@ -103,7 +103,10 @@ const cleanFields = () => {
 
 const manipulaErros = (erros, campos) => {
     for(let erro of erros) {
-        campos[erro.field].mensagem.push(erro.message)
+        if(!campos[erro.field].mensagem.includes(erro.message)) {
+            campos[erro.field].mensagem.push(erro.message)
+        }
+        
     }
     return mensagemErro(campos)
 }

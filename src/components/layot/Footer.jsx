@@ -3,7 +3,7 @@ function Footer () {
 
     return (
         <footer>
-            <div className="container">FOOTER</div>
+            <div className="container"></div>
         </footer>
     )
 }

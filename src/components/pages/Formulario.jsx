@@ -1,10 +1,10 @@
 // Hooks do React
 import { useState } from 'react';
 
-import Responsavel from './Responsavel';
-import ResponsavelCPF from './ResponsavelCPF';
-import Evento from './Evento';
-import Horario from './Horario';
+import FormularioResponsavel from './FormularioResponsavel';
+import FormularioCPFResponsavel from './FormularioCPFResponsavel';
+import FormularioEvento from './FormularioEvento';
+import FormularioHorario from './FormularioHorario';
 
 function Formulario(props) {
 
@@ -22,7 +22,7 @@ function Formulario(props) {
     if(evento) {
         return(
             <>
-                <Horario 
+                <FormularioHorario 
                     evento={evento} 
                     setHorario={setHorario}
                 />
@@ -32,7 +32,7 @@ function Formulario(props) {
     else if(idResponsavel) {
         return (
             <>
-                <Evento 
+                <FormularioEvento
                     idResponsavel={idResponsavel} 
                     setEvento={setEvento} 
                 />
@@ -42,7 +42,7 @@ function Formulario(props) {
     else if(dadosResponsavel) {
         return (
             <>
-                <Responsavel
+                <FormularioResponsavel
                     dadosResponsavel={dadosResponsavel}
                     setIdResponsavel={setIdResponsavel}
                 />
@@ -52,7 +52,7 @@ function Formulario(props) {
     else if(responsavelCPF) {
         return (
             <>
-                <Responsavel
+                <FormularioResponsavel
                     responsavelCPF={responsavelCPF}
                     setIdResponsavel={setIdResponsavel}
                 />
@@ -61,7 +61,7 @@ function Formulario(props) {
     } else {
         return(
             <>
-                <ResponsavelCPF 
+                <FormularioCPFResponsavel 
                         setDadosResponsavel={setDadosResponsavel}
                         setResponsavelCPF={setResponsavelCPF}
                 />

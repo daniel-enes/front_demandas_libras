@@ -3,7 +3,7 @@ import { toogleLoading, toFocus, show } from '../../funcoes/efeitos.js'
 
 import { useNavigate } from 'react-router-dom';
 
-import {dicionarioValidacao} from '../../config.js'
+import { dicionarioValidacao } from '../../validacao_formulario/dicionarioValidacao.js'
 
 // Par avalidar formulário
 import Schema from 'async-validator'
