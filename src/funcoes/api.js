@@ -31,7 +31,9 @@ function updateAPI(dados, uri) {
         body: JSON.stringify(dados)
     })
     .then(resp => {
-            console.log(resp)
+            if(resp.status == 204) {
+                console.log(resp)
+            }
         }
     )
     .catch((err) => console.log(err))
