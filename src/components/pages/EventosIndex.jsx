@@ -22,18 +22,13 @@ function EventosIndex() {
     }
 
     // Manipula o campo que determina a página corrente da paginação
-    const handleChangePage = (
-        event: React.MouseEvent<HTMLButtonElement> | null,
-        newPage: number,
-    ) => {
+    const handleChangePage = (event, newPage) => {
         setPage(newPage)
         getApi(setEventos, e+'sort='+ordenar+'&page[size]='+rowsPerPage+'&page[number]='+(newPage+1)+(filtro ? '&filter[titulo]='+filtro : ''))
     }
 
     // Manipula o campo "Rows per page"
-    const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
+    const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
         getApi(setEventos, e+'sort='+ordenar+'&page[size]='+event.target.value+'&page[number]=1'+(filtro ? '&filter[titulo]='+filtro : ''))
@@ -60,13 +55,12 @@ function EventosIndex() {
         evento = listaEventos.map((e) => {
             return (
                 <li key={e.id} className="lista_resultado">
+                    <a href={"/eventos/"+e.id}>
                     <div className="container">
-                        <a href={"/eventos/"+e.id}>
                         <h3>{e.attributes.titulo}</h3>
                         <p>{e.attributes.sobre.length > 200 ? e.attributes.sobre.substr(0, 200) + '...' : e.attributes.sobre}</p>
-                        <p><a href={e.attributes.informacoes}>{e.attributes.informacoes}</a></p>
-                        </a>
                     </div>
+                    </a>
                 </li>
             )
         })

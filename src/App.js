@@ -9,7 +9,7 @@ import EventosIndex from './components/pages/EventosIndex';
 import EventoShow from './components/pages/EventoShow';
 import FormularioInterprete from './components/pages/FormularioInterprete ';
 import InterpretesIndex from './components/pages/InterpretesIndex';
-//
+import EscalarInterprete from './components/pages/EscalarInterprete';
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
             <Route path='/eventos/:id' element={<EventoShow/>}/>
             <Route path='/cadastrar_interprete' element={<FormularioInterprete />}/>
             <Route path='/interpretes' element={<InterpretesIndex />}/>
+            <Route path='/editar_escala_interprete/:horarioId' element={<EscalarInterprete />}/>
           </Routes>
         </Main>
         <Footer />

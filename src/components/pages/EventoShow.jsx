@@ -6,7 +6,9 @@ import { getApi } from '../../funcoes/formulario.js'
 
 import { urlApi } from '../../config.js';
 
-import HorarioInterpretes from './HorarioInterpretes.jsx';
+//import HorarioInterpretes from './HorarioInterpretes.jsx';
+// Importa os componentes que exibem os dados dos respectivos objetos
+import DadosInterprete from '../dados/DadosInterprete';
 
 function EventoShow() {
 
@@ -94,10 +96,14 @@ function EventoShow() {
                 }
                 
                 // Contrói a seção de intérpretes
+                
                 if(interpretesRelatedURI) {
-                    interpretes = <HorarioInterpretes uri={interpretesRelatedURI}/>
+                    interpretes = 
+                    <DadosInterprete 
+                    uri={interpretesRelatedURI}
+                    />
                 }
-
+                
                 const data = new Date(horario.attributes.dia)
                 const dia = data.getDate()+"/"+data.getMonth()+"/"+data.getFullYear()
                 return (
@@ -128,6 +134,7 @@ function EventoShow() {
                             <>
                             <h4>Intérpretes</h4>
                             {interpretes}
+                            <p><a href={"/editar_escala_interprete/"+ horario.id}>Editar escala</a></p>
                             </>
                         }
 
@@ -142,11 +149,6 @@ function EventoShow() {
             })
         }
     }
-
-    if(interpretesRelatedURI) {
-        interpretes = <HorarioInterpretes uri={interpretesRelatedURI}/>
-    }
-
     return (
         <div className='container'>
             {cabecalhoEvento}
