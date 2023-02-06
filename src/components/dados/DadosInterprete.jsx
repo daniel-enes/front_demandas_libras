@@ -3,7 +3,7 @@ import { getApi } from "../../funcoes/formulario"
 
 
 export default function DadosInterprete (props) {
-    const [interpretes, setInterpretes] = useState(props.dados)
+    const [interpretes, setInterpretes] = useState(false)
 
     let sessaoInterprete = false
     
@@ -17,8 +17,8 @@ export default function DadosInterprete (props) {
                 return (
                     <li key={i.id}>
                         <p><b>{i.attributes.nome}</b></p>
-                        <p>Telefone: {i.attributes.telefone}</p>
-                        <p>Email: {i.attributes.email}</p>
+                        <p>Telefone: <a href={"tel:"+i.attributes.telefone}>{i.attributes.telefone}</a></p>
+                        <p>Email: <a href={"mailto:"+i.attributes.email}>{i.attributes.email}</a></p>
                     </li>
                 )
             })
@@ -30,7 +30,6 @@ export default function DadosInterprete (props) {
             )
         }
     } 
-    
 
     return(
         <ul>

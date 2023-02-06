@@ -45,8 +45,13 @@ export default function EscalarInterprete() {
     // (3) @escalados: conterá os intérpretes anteriormente escalados para já deixá-los
     // marcados no Select
     const [personName, setPersonName] = React.useState([]);
+    //const [personName, setPersonName] = React.useState(false);
     let names = [];
     let escalados = [];
+    const [escala, setEscala] = React.useState(true)
+    let dadosInterpretes = []
+    const [escalaDefinida, setEscalaDefinida] = React.useState([])
+    
 
     // Manipula a seleção dos intérpretes no Select, definindo-o no @personName
     const handleChange = (event) => {
@@ -57,8 +62,9 @@ export default function EscalarInterprete() {
         // On autofill we get a stringified value.
         typeof value === 'string' ? value.split(',') : value,
       );
+      setEscala(false)
     };
-
+    
     // Recupera no servidor todos os intépretes e os escalados 
     React.useEffect(() => {
         getApi(setInterpretes, uriInterpretes)
@@ -66,20 +72,19 @@ export default function EscalarInterprete() {
     }, [])
 
     // Armazena os nomes dos intérpretes no @names
-    if((interpretes) && (interpretes.data.length != 0)) {
+    if(interpretes) {
         names =  interpretes.data.map((interprete) => {
             return interprete.attributes.nome
         })
     }
-
-    let dados = false
+    
     // Armazena os nomes dos intérpretes escalados no @escalados
-    if((interpretesEscalados) && (interpretesEscalados.data.length != 0)) {
+    if(interpretesEscalados) {
         escalados = interpretesEscalados.data.map((escalado) => {
             return escalado.attributes.nome
             
         })
-        dados = interpretesEscalados.data.map((escalado) => {
+        dadosInterpretes = interpretesEscalados.data.map((escalado) => {
             return (
                 <li key={escalado.id}>
                     <p><b>{escalado.attributes.nome}</b></p>
@@ -92,14 +97,18 @@ export default function EscalarInterprete() {
 
     // Os intérpretes anteriormente escalados são definidos no @personName
     // e são automaticamente marcados na lista do Select
-    if((personName.length == 0) && (escalados.length != 0)) {
+    if(personName.length == 0 && escalados.length != 0 && escala) {
         setPersonName(escalados)
     }
-    
+
     // Define a estrutura de dados contendo o ID dos intérpretes escalados 
-    let escalaDefinida = []
+    //let escalaDefinida = []
+
+    /*
     if((personName) && (interpretes)) {
     //if((personName) && (personName.length != 0) && (interpretes) && (interpretes.data.length != 0)) {
+        console.log(personName)
+        let escalaDefinida = []
         for(let interprete of interpretes.data) {
             if(personName.includes(interprete.attributes.nome))  { 
                 escalaDefinida.push(
@@ -110,19 +119,39 @@ export default function EscalarInterprete() {
                 )
             }
         }
+        setInterpretes(false)
+        setEscalaDefinida(escalaDefinida)
     }
+    */
 
     // Função para atualizar a escala do horário do evento no servidor
     const atualizarEscala = () => {
         // Define a estrutura de dados que será enviado ao servidor
-        let horarioRelationshipsInterprete = false
-        if(escalaDefinida.length != 0 ) {
-            horarioRelationshipsInterprete = {
-                data: escalaDefinida  
+        let escalaDefinida = []
+
+        if((personName) && (interpretes)) {
+        //if((personName) && (personName.length != 0) && (interpretes) && (interpretes.data.length != 0)) {
+            //console.log(personName)
+            for(let interprete of interpretes.data) {
+                if(personName.includes(interprete.attributes.nome))  { 
+                    escalaDefinida.push(
+                        {
+                            id: interprete.id,
+                            type: 'interpretes',
+                        },
+                    )
+                }
             }
-            updateAPI(horarioRelationshipsInterprete, uriApiUpdate)
-            getApi(setInterpretesEscalados, uriInterpretesEscalados)
         }
+
+        let horarioRelationshipsInterprete = {
+            data: escalaDefinida  
+        }
+
+        console.log(personName)
+        console.log(horarioRelationshipsInterprete)
+        updateAPI(horarioRelationshipsInterprete, uriApiUpdate)
+        getApi(setInterpretesEscalados, uriInterpretesEscalados)
     }
 
     return (
@@ -142,7 +171,8 @@ export default function EscalarInterprete() {
                 renderValue={(selected) => selected.join(', ')}
                 MenuProps={MenuProps}
                 >
-                {names.map((name) => (
+                {names && 
+                names.map((name) => (
                     <MenuItem key={name} value={name}>
                     <Checkbox checked={personName.indexOf(name) > -1} />
                     <ListItemText primary={name} />
@@ -156,8 +186,8 @@ export default function EscalarInterprete() {
                     <a onClick={() => atualizarEscala()}>Atualizar</a> 
                 </p>
             </div>            
-            {dados && 
-                <ul>{dados}</ul>
+            {dadosInterpretes && 
+                <ul>{dadosInterpretes}</ul>
             }
         </div>
         </>

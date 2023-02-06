@@ -8,6 +8,7 @@ import { urlApi } from '../../config.js';
 
 //import HorarioInterpretes from './HorarioInterpretes.jsx';
 // Importa os componentes que exibem os dados dos respectivos objetos
+import DadosResponsavel from '../dados/DadosResponsavel.jsx';
 import DadosInterprete from '../dados/DadosInterprete';
 
 function EventoShow() {
@@ -31,7 +32,7 @@ function EventoShow() {
     if(evento) {
         
         // Constrói a seção do cabeçalho do evento
-        cabecalhoEvento= (
+        cabecalhoEvento = (
             <section className='width_100' style={{order: 1}}>  
             <h2 className='uppercase'>{evento.data.attributes.titulo}</h2>
             <h3>Sobre o evento</h3>
@@ -57,24 +58,12 @@ function EventoShow() {
         })
 
         // Constrói a seção contendo os dados do responsável
-
-        if(objetoResponsavel) {
-
+         if(objetoResponsavel) {
+            const dadosResponsavel =  objetoResponsavel[0]
             responsavel = (
-                <section key={objetoResponsavel[0].id}>
+                <section>
                     <h3>Responsavel</h3>
-                    <dl>
-                        <dt>Nome: </dt>
-                        <dd>{objetoResponsavel[0].attributes.nome}</dd>
-                        <dt>Telefone:</dt>
-                        <dd><a href={"tel:"+objetoResponsavel[0].attributes.telefone}>{objetoResponsavel[0].attributes.telefone}</a></dd>
-                        <dt>Email:</dt>
-                        <dd><a href={"mailto:"+objetoResponsavel[0].attributes.email}>{objetoResponsavel[0].attributes.email}</a></dd>
-                        <dt>Ocupação:</dt>
-                        <dd>{objetoResponsavel[0].attributes.ocupacao}</dd>
-                        <dt>Registro:</dt>
-                        <dd>{objetoResponsavel[0].attributes.registro}</dd>
-                    </dl>
+                    <DadosResponsavel dados={dadosResponsavel}/>
                 </section>
             )
         }
@@ -89,18 +78,21 @@ function EventoShow() {
         if(objetoHorarios) {
             
             horarios = objetoHorarios.map((horario) => {
+                let uri = false
 
-                if((!interpretesRelatedURI) && (horario.relationships.interpretes.links.related)) {
-                    const uri = horario.relationships.interpretes.links.related.replace(urlApi, '')
-                    setInterpretesRelatedURI(uri)
+                //if((!interpretesRelatedURI) && (horario.relationships.interpretes.links.related)) {
+                if(horario.relationships.interpretes.links.related) {
+                    uri = horario.relationships.interpretes.links.related.replace(urlApi, '')
+                    //setInterpretesRelatedURI(uri)
                 }
                 
                 // Contrói a seção de intérpretes
                 
-                if(interpretesRelatedURI) {
+                //if(interpretesRelatedURI) {
+                if(uri) {
                     interpretes = 
                     <DadosInterprete 
-                    uri={interpretesRelatedURI}
+                    uri={uri}
                     />
                 }
                 
@@ -109,7 +101,7 @@ function EventoShow() {
                 return (
                     <section key={horario.id}>
 
-                        <h3>{dia} - Modalidade: {horario.attributes.modalidade}</h3>
+                        <h3 style={{backgroundColor: "lightgreen"}}>{dia} - Modalidade: {horario.attributes.modalidade}</h3>
                         
                         <h4>Horário</h4>
                         <p>{dia} - {horario.attributes.inicia.substr(0, 5)} às {horario.attributes.termina.substr(0, 5)}</p>
