@@ -49,7 +49,7 @@ function EventosIndex() {
     
     let evento = []
     if(eventos) {
-
+        console.log(eventos)
         let listaEventos = eventos.data
         
         evento = listaEventos.map((e) => {

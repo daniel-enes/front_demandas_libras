@@ -115,7 +115,7 @@ function FormularioEvento({idResponsavel, setEvento}) {
                         name="titulo"
                         id="titulo"
                         maxlength="200"
-                        //required={true}
+                        required={true}
                         handleChange={handleChange}
                         />
 
@@ -126,7 +126,7 @@ function FormularioEvento({idResponsavel, setEvento}) {
                         name="sobre"
                         id="sobre"
                         maxlength="5000"
-                        //required={true}
+                        required={true}
                         handleChange={handleChange} 
                         />
 

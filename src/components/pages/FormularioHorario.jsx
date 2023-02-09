@@ -138,7 +138,7 @@ function FormularioHorario({evento, setHorario}) {
                         idDescricao=""
                         name="modalidade"
                         id="modalidade"
-                        //required={true}
+                        required={true}
                         valores={['remoto', 'presencial com transmissão', 'presencial sem transmissão']}
                         handleChange={handleChange}
                         />
@@ -150,7 +150,7 @@ function FormularioHorario({evento, setHorario}) {
                         type="date"
                         name="dia"
                         id="dia"
-                        //required={true}
+                        required={true}
                         handleChange={handleChange}
                         />
 
@@ -161,7 +161,7 @@ function FormularioHorario({evento, setHorario}) {
                         type="time"
                         name="inicia"
                         id="inicia"
-                        //required={true}
+                        required={true}
                         handleChange={handleChange}
                         />
 
@@ -172,7 +172,7 @@ function FormularioHorario({evento, setHorario}) {
                         type="time"
                         name="termina"
                         id="termina"
-                        //required={true}
+                        required={true}
                         handleChange={handleChange}
                         />
 
@@ -193,8 +193,8 @@ function FormularioHorario({evento, setHorario}) {
                         descricao="Sítio eletrônico contendo anexos e arquivos úteis para os intérpretes 
                         estarem estudando acerca do evento. Até 255 caracteres."
                         idDescricao="desc_material"
-                        //type="url"
-                        type="text"
+                        type="url"
+                        //type="text"
                         name="material"
                         id="material"
                         maxlength="255"

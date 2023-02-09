@@ -125,7 +125,7 @@ function FormularioResponsavel ({dadosResponsavel, responsavelCPF, setIdResponsa
                             name="nome"
                             id="nome"
                             maxlength="150"
-                            //required={true}
+                            required={true}
                             handleChange={handleChange}
                             />
                         }
@@ -140,7 +140,7 @@ function FormularioResponsavel ({dadosResponsavel, responsavelCPF, setIdResponsa
                     min="1100000000"
                     max="99999999999"
                     maxlength="11"
-                    //required={true}
+                    required={true}
                     value={dados.telefone ? dados.telefone : '' }
                     handleChange={handleChange}
                     />
@@ -153,7 +153,7 @@ function FormularioResponsavel ({dadosResponsavel, responsavelCPF, setIdResponsa
                     name="email"
                     id="email"
                     maxlength="150"
-                    //required={true}
+                    required={true}
                     value={dados.email ? dados.email : ''}
                     handleChange={handleChange}
                     />
@@ -175,8 +175,8 @@ function FormularioResponsavel ({dadosResponsavel, responsavelCPF, setIdResponsa
                     descricao='Apenas dígitos numéricos. Digite seu Siape caso no campo anterior tenha selecionado
                     “docente” ou "técnico"; ou o DRE caso seja "estudante".'
                     idDescricao="desc_registro"
-                    //type="number"
-                    type="text"
+                    type="number"
+                    //type="text"
                     name="registro"
                     id="registro"
                     maxlength="9"
