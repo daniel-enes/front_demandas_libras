@@ -96,15 +96,15 @@ function EventoShow() {
                     />
                 }
                 
-                const data = new Date(horario.attributes.dia)
-                const dia = data.getDate()+"/"+data.getMonth()+"/"+data.getFullYear()
+                //const data = new Date(horario.attributes.dia)
+                //const dia = day+"/"+(data.getMonth()+1)+"/"+data.getFullYear()
                 return (
                     <section key={horario.id}>
 
-                        <h3 style={{backgroundColor: "lightgreen"}}>{dia} - Modalidade: {horario.attributes.modalidade}</h3>
+                        <h3 style={{backgroundColor: "lightgreen"}}>{horario.attributes.dia} - Modalidade: {horario.attributes.modalidade}</h3>
                         
                         <h4>Horário</h4>
-                        <p>{dia} - {horario.attributes.inicia.substr(0, 5)} às {horario.attributes.termina.substr(0, 5)}</p>
+                        <p>{horario.attributes.dia} - {horario.attributes.inicia.substr(0, 5)} às {horario.attributes.termina.substr(0, 5)}</p>
                         
                         <h4>Local</h4>
                         {horario.attributes.local ? 
