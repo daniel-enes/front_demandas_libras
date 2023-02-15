@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 
 import { useParams } from 'react-router-dom'
 
-import { getApi } from '../../funcoes/formulario.js'
+import { getApi } from '../../funcoes/api.js'
+import { EVENTOS } from '../../config.js';
 
 import { urlApi } from '../../config.js';
 
@@ -12,6 +13,8 @@ import DadosResponsavel from '../dados/DadosResponsavel.jsx';
 import DadosInterprete from '../dados/DadosInterprete';
 
 function EventoShow() {
+
+    const e = EVENTOS + '/'
 
     let {id} = useParams();
 
@@ -25,7 +28,7 @@ function EventoShow() {
     let interpretes = false
 
     useEffect(() => {
-        getApi(setEvento, '/eventos/'+id+'?include=horarios,responsavel')
+        getApi(setEvento, e+id+'?include=horarios,responsavel')
     }, [])
 
     // Verifica se o evento existe

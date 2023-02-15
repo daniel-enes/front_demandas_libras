@@ -22,7 +22,7 @@ export default function Login() {
   const credentialsApi = {
     grant_type: 'password',
     client_id: 2,
-    client_secret: 'YMMYFHdnacnlDArztB1t71nQtoKyaIyNtX1hnxya',
+    client_secret: 'RsLm1qZaFx8IHJhIo3UWN63kOXSNVSZTOUI4uYO4',
     username: dadosLogin.username,
     password: dadosLogin.password,
   }

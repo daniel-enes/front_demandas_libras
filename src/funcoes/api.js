@@ -12,13 +12,18 @@ function getApi(setDados, uri) {
         method: 'GET',
         headers: {
             'Content-type': 'application/vnd.api+json',
+            'Authorization': 'Bearer '+ localStorage.getItem('access_token')
         },
     })
     .then(resp => resp.json())
     .then((data) => {
         setDados(data)
+        
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err)
+      console.log(localStorage.getItem('access_token'))
+    })
 }
 
 function updateAPI(dados, uri) {

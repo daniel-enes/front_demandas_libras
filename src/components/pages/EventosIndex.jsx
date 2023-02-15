@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { getApi } from '../../funcoes/formulario.js'
-
+import { getApi } from '../../funcoes/api.js'
+import { EVENTOS } from '../../config.js';
 import TablePagination from '@mui/material/TablePagination';
 
 function EventosIndex() {
@@ -12,7 +12,7 @@ function EventosIndex() {
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
     // Rota do backend para a coleção de eventos
-    const e = '/eventos?'
+    const e = EVENTOS + '?'
 
     // Manipula o campo que "Ordenar resultados"
     const handleOrdenar = (o) => {
